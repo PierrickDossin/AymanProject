@@ -1,5 +1,12 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
+import dns from "node:dns";
+
+// Force IPv4 to avoid ENETUNREACH errors with Supabase/Railway
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder("ipv4first");
+}
+
 dotenv.config();
 
 import express from "express";
