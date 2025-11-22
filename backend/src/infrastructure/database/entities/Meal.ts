@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
-import { User } from "./User.js";
 
 export enum MealType {
   BREAKFAST = "breakfast",
@@ -57,7 +56,7 @@ export class Meal {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @ManyToOne(() => User, (user: User) => user.meals, { onDelete: "CASCADE" })
+  @ManyToOne("User", (user: any) => user.meals, { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 }

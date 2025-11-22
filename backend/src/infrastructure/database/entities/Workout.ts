@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
-import { User } from "./User.js";
 
 export interface PlannedExercise {
   exerciseId: string;
@@ -45,7 +44,7 @@ export class Workout {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @ManyToOne(() => User, (user: User) => user.workouts, { onDelete: "CASCADE" })
+  @ManyToOne("User", (user: any) => user.workouts, { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
   user!: any;
 }
