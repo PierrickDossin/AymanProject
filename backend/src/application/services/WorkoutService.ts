@@ -1,4 +1,4 @@
-import { WorkoutRepository } from "../../domain/repositories/WorkoutRepository";
+import { WorkoutRepository } from "../../domain/repositories/WorkoutRepository.js";
 
 export class WorkoutService {
   constructor(private repo: WorkoutRepository) {}

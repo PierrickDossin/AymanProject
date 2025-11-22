@@ -1,5 +1,5 @@
-import { Exercise } from "../infrastructure/database/entities/Exercise";
-import { ExerciseRepository } from "../repositories/ExerciseRepository";
+import { Exercise } from "../infrastructure/database/entities/Exercise.js";
+import { ExerciseRepository } from "../repositories/ExerciseRepository.js";
 
 export class ExerciseService {
   private exerciseRepository = new ExerciseRepository();

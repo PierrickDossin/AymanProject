@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
-import { User as UserEntity } from "../database/entities/User";
-import { User, CreateUserDTO, UpdateUserDTO } from "../../domain/entities/User";
-import { UserRepository } from "../../domain/repositories/UserRepository";
-import { AppDataSource } from "../database/data-source";
+import { User as UserEntity } from "../database/entities/User.js";
+import { User, CreateUserDTO, UpdateUserDTO } from "../../domain/entities/User.js";
+import { UserRepository } from "../../domain/repositories/UserRepository.js";
+import { AppDataSource } from "../database/data-source.js";
 
 export class TypeOrmUserRepository implements UserRepository {
   private repository: Repository<UserEntity>;

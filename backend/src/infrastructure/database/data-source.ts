@@ -2,11 +2,11 @@ import "reflect-metadata";
 import { DataSource, DataSourceOptions } from "typeorm";
 import path from "path";
 import { fileURLToPath } from "url";
-import { User } from "./entities/User";
-import { Meal } from "./entities/Meal";
-import { Goal } from "./entities/Goal";
-import { Workout } from "./entities/Workout";
-import { Exercise } from "./entities/Exercise";
+import { User } from "./entities/User.js";
+import { Meal } from "./entities/Meal.js";
+import { Goal } from "./entities/Goal.js";
+import { Workout } from "./entities/Workout.js";
+import { Exercise } from "./entities/Exercise.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

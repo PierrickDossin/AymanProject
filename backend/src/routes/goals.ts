@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GoalController } from "../controllers/GoalController";
+import { GoalController } from "../controllers/GoalController.js";
 
 const router = Router();
 const controller = new GoalController();

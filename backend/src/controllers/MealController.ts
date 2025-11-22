@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { MealService } from "../services/MealService";
-import { MealType } from "../infrastructure/database/entities/Meal";
+import { MealService } from "../services/MealService.js";
+import { MealType } from "../infrastructure/database/entities/Meal.js";
 
 const FoodItemSchema = z.object({
   id: z.string(),

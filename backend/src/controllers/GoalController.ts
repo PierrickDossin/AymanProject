@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { GoalService } from "../services/GoalService";
-import { GoalType, GoalMetric } from "../infrastructure/database/entities/Goal";
+import { GoalService } from "../services/GoalService.js";
+import { GoalType, GoalMetric } from "../infrastructure/database/entities/Goal.js";
 
 const CreateGoalSchema = z.object({
   userId: z.string().uuid(),

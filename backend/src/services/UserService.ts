@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { UserRepository } from "../repositories/UserRepository";
+import { UserRepository } from "../repositories/UserRepository.js";
 
 export class UserService {
   private repository: UserRepository;

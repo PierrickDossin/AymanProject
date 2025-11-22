@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ExerciseService } from "../services/ExerciseService";
-import { exercises as seedData } from "../data/exercises";
+import { ExerciseService } from "../services/ExerciseService.js";
+import { exercises as seedData } from "../data/exercises.js";
 
 export class ExerciseController {
   private exerciseService = new ExerciseService();

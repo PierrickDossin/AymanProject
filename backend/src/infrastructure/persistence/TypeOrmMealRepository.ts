@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
-import { Meal as MealEntity } from "../database/entities/Meal";
-import { Meal, CreateMealDTO, UpdateMealDTO } from "../../domain/entities/Meal";
-import { MealRepository } from "../../domain/repositories/MealRepository";
-import { AppDataSource } from "../database/data-source";
+import { Meal as MealEntity } from "../database/entities/Meal.js";
+import { Meal, CreateMealDTO, UpdateMealDTO } from "../../domain/entities/Meal.js";
+import { MealRepository } from "../../domain/repositories/MealRepository.js";
+import { AppDataSource } from "../database/data-source.js";
 
 export class TypeOrmMealRepository implements MealRepository {
   private repository: Repository<MealEntity>;

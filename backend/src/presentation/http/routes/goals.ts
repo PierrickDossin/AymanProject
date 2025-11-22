@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { AppDataSource } from "../../../infrastructure/database/data-source";
-import { Goal } from "../../../infrastructure/database/entities/Goal";
+import { AppDataSource } from "../../../infrastructure/database/data-source.js";
+import { Goal } from "../../../infrastructure/database/entities/Goal.js";
 
 const router = Router();
 

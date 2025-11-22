@@ -1,5 +1,5 @@
-import { AppDataSource } from "../../infrastructure/database/data-source";
-import { Workout } from "../../infrastructure/database/entities/Workout";
+import { AppDataSource } from "../../infrastructure/database/data-source.js";
+import { Workout } from "../../infrastructure/database/entities/Workout.js";
 
 export class AnalystAgent {
   /**
@@ -39,10 +39,10 @@ export class AnalystAgent {
     // 2. Identify Neglected Muscle Groups (Simple keyword search in workout names for now)
     // In a real app, we'd join with the Exercise entity.
     const muscleGroups = ["Chest", "Back", "Legs", "Shoulders", "Arms", "Cardio"];
-    const workoutNames = workouts.map(w => w.name.toLowerCase());
+    const workoutNames = workouts.map((w: Workout) => w.name.toLowerCase());
     
     const neglectedGroups = muscleGroups.filter(group => {
-      return !workoutNames.some(name => name.includes(group.toLowerCase()));
+      return !workoutNames.some((name: string) => name.includes(group.toLowerCase()));
     });
 
     // 3. Generate Report

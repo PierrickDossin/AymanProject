@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
-import { Meal } from "./Meal";
-import { Goal } from "./Goal";
-import { Workout } from "./Workout";
+import { Meal } from "./Meal.js";
+import { Goal } from "./Goal.js";
+import { Workout } from "./Workout.js";
 
 @Entity("users")
 export class User {
@@ -32,12 +32,12 @@ export class User {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Meal, (meal) => meal.user)
+  @OneToMany(() => Meal, (meal: Meal) => meal.user)
   meals!: Meal[];
 
-  @OneToMany(() => Goal, (goal) => goal.user)
+  @OneToMany(() => Goal, (goal: Goal) => goal.user)
   goals!: Goal[];
 
-  @OneToMany(() => Workout, (workout) => workout.user)
+  @OneToMany(() => Workout, (workout: Workout) => workout.user)
   workouts!: Workout[];
 }

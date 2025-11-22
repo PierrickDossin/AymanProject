@@ -1,5 +1,5 @@
-import { UserRepository } from "../../domain/repositories/UserRepository";
-import { User, CreateUserDTO, UpdateUserDTO } from "../../domain/entities/User";
+import { UserRepository } from "../../domain/repositories/UserRepository.js";
+import { User, CreateUserDTO, UpdateUserDTO } from "../../domain/entities/User.js";
 import bcrypt from "bcrypt";
 
 export class UserService {

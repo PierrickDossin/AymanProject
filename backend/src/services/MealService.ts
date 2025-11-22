@@ -1,5 +1,14 @@
-import { MealRepository } from "../repositories/MealRepository";
-import { MealType } from "../infrastructure/database/entities/Meal";
+import { MealRepository } from "../repositories/MealRepository.js";
+import { MealType } from "../infrastructure/database/entities/Meal.js";
+
+interface FoodItem {
+  id: string;
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
 
 export class MealService {
   private repository: MealRepository;
@@ -77,8 +86,8 @@ export class MealService {
       throw new Error("Meal not found");
     }
 
-    const items = meal.items || [];
-    const updatedItems = items.filter(item => item.id !== foodId);
+    const items = (meal.items || []) as FoodItem[];
+    const updatedItems = items.filter((item: FoodItem) => item.id !== foodId);
 
     if (items.length === updatedItems.length) {
       throw new Error("Food item not found");
@@ -86,7 +95,7 @@ export class MealService {
 
     // Recalculate totals
     const totals = updatedItems.reduce(
-      (acc, item) => ({
+      (acc: { calories: number; protein: number; carbs: number; fat: number }, item: FoodItem) => ({
         calories: acc.calories + item.calories,
         protein: acc.protein + item.protein,
         carbs: acc.carbs + item.carbs,

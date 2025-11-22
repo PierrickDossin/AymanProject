@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { WorkoutService } from "../services/WorkoutPlanService";
+import { WorkoutService } from "../services/WorkoutPlanService.js";
 
 export class WorkoutController {
   private workoutService = new WorkoutService();

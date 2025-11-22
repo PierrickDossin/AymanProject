@@ -1,4 +1,4 @@
-import { Meal, CreateMealDTO, UpdateMealDTO } from "../entities/Meal";
+import { Meal, CreateMealDTO, UpdateMealDTO } from "../entities/Meal.js";
 
 export interface MealRepository {
   findAll(userId: string, date?: string): Promise<Meal[]>;

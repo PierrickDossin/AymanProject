@@ -1,4 +1,4 @@
-import { Workout } from "../entities/Workout";
+import { Workout } from "../entities/Workout.js";
 
 export interface WorkoutRepository {
   list(): Promise<Workout[]>;

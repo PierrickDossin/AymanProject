@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { UserService } from "../application/services/UserService";
-import { TypeOrmUserRepository } from "../infrastructure/persistence/TypeOrmUserRepository";
+import { UserService } from "../application/services/UserService.js";
+import { TypeOrmUserRepository } from "../infrastructure/persistence/TypeOrmUserRepository.js";
 
 const CreateUserSchema = z.object({
   username: z.string().min(3).max(50),

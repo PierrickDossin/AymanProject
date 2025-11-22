@@ -1,5 +1,5 @@
-import { Workout } from "../../domain/entities/Workout";
-import { WorkoutRepository } from "../../domain/repositories/WorkoutRepository";
+import { Workout } from "../../domain/entities/Workout.js";
+import { WorkoutRepository } from "../../domain/repositories/WorkoutRepository.js";
 
 export class InMemoryWorkoutRepository implements WorkoutRepository {
   private items: Workout[] = [];

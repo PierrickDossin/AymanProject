@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { AppDataSource } from "../../../infrastructure/database/data-source";
-import { Workout } from "../../../infrastructure/database/entities/Workout";
+import { AppDataSource } from "../../../infrastructure/database/data-source.js";
+import { Workout } from "../../../infrastructure/database/entities/Workout.js";
 
 const router = Router();
 

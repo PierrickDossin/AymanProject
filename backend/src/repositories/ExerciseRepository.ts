@@ -1,5 +1,5 @@
-import { AppDataSource } from "../infrastructure/database/data-source";
-import { Exercise } from "../infrastructure/database/entities/Exercise";
+import { AppDataSource } from "../infrastructure/database/data-source.js";
+import { Exercise } from "../infrastructure/database/entities/Exercise.js";
 
 export class ExerciseRepository {
   private repository = AppDataSource.getRepository(Exercise);

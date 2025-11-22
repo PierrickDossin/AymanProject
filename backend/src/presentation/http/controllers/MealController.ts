@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { MealService } from "../../../application/services/MealService";
-import { MealType } from "../../../domain/entities/Meal";
+import { MealService } from "../../../application/services/MealService.js";
+import { MealType } from "../../../domain/entities/Meal.js";
 
 const CreateMealSchema = z.object({
   userId: z.string().uuid(),

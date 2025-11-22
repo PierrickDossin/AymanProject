@@ -1,5 +1,5 @@
-import { Workout, PlannedExercise } from "../infrastructure/database/entities/Workout";
-import { WorkoutRepository } from "../repositories/WorkoutRepository";
+import { Workout, PlannedExercise } from "../infrastructure/database/entities/Workout.js";
+import { WorkoutRepository } from "../repositories/WorkoutRepository.js";
 
 export class WorkoutService {
   private workoutRepository = new WorkoutRepository();
@@ -36,8 +36,8 @@ export class WorkoutService {
     const workouts = await this.workoutRepository.getWeeklyWorkouts(userId, weekStart, weekEnd);
     return {
       totalWorkouts: workouts.length,
-      completedWorkouts: workouts.filter(w => w.status === "completed").length,
-      plannedWorkouts: workouts.filter(w => w.status === "planned").length
+      completedWorkouts: workouts.filter((w: Workout) => w.status === "completed").length,
+      plannedWorkouts: workouts.filter((w: Workout) => w.status === "planned").length
     };
   }
 
@@ -48,7 +48,7 @@ export class WorkoutService {
     exercises: PlannedExercise[];
   }): Promise<Workout> {
     // Calculate total duration
-    const totalDuration = workoutData.exercises.reduce((sum, ex) => sum + ex.duration, 0);
+    const totalDuration = workoutData.exercises.reduce((sum: number, ex: PlannedExercise) => sum + ex.duration, 0);
 
     return this.workoutRepository.create({
       ...workoutData,
@@ -60,7 +60,7 @@ export class WorkoutService {
   async updateWorkout(id: string, workoutData: Partial<Workout>): Promise<Workout> {
     // Recalculate total duration if exercises were updated
     if (workoutData.exercises) {
-      workoutData.totalDuration = workoutData.exercises.reduce((sum, ex) => sum + ex.duration, 0);
+      workoutData.totalDuration = workoutData.exercises.reduce((sum: number, ex: PlannedExercise) => sum + ex.duration, 0);
     }
 
     const workout = await this.workoutRepository.update(id, workoutData);

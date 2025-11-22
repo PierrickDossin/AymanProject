@@ -1,5 +1,5 @@
-import { MealRepository } from "../../domain/repositories/MealRepository";
-import { Meal, CreateMealDTO, UpdateMealDTO } from "../../domain/entities/Meal";
+import { MealRepository } from "../../domain/repositories/MealRepository.js";
+import { Meal, CreateMealDTO, UpdateMealDTO } from "../../domain/entities/Meal.js";
 
 export class MealService {
   constructor(private repository: MealRepository) {}

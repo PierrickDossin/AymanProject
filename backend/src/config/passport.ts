@@ -3,8 +3,8 @@ dotenv.config();
 
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { UserService } from "../application/services/UserService";
-import { TypeOrmUserRepository } from "../infrastructure/persistence/TypeOrmUserRepository";
+import { UserService } from "../application/services/UserService.js";
+import { TypeOrmUserRepository } from "../infrastructure/persistence/TypeOrmUserRepository.js";
 
 console.log('🔍 Environment check - GOOGLE_CLIENT_ID exists:', !!process.env.GOOGLE_CLIENT_ID);
 

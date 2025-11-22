@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../infrastructure/database/data-source";
-import { Goal } from "../infrastructure/database/entities/Goal";
+import { AppDataSource } from "../infrastructure/database/data-source.js";
+import { Goal } from "../infrastructure/database/entities/Goal.js";
 
 export class GoalRepository {
   private repository: Repository<Goal>;

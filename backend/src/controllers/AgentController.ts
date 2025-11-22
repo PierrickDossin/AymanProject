@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AnalystAgent } from "../application/agents/AnalystAgent";
+import { AnalystAgent } from "../application/agents/AnalystAgent.js";
 
 export class AgentController {
     private analyst: AnalystAgent;

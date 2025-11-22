@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { MealController } from "../controllers/MealController";
-import { MealService } from "../../../application/services/MealService";
-import { TypeOrmMealRepository } from "../../../infrastructure/persistence/TypeOrmMealRepository";
+import { MealController } from "../controllers/MealController.js";
+import { MealService } from "../../../application/services/MealService.js";
+import { TypeOrmMealRepository } from "../../../infrastructure/persistence/TypeOrmMealRepository.js";
 
 const router = Router();
 

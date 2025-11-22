@@ -1,5 +1,5 @@
-import { AppDataSource } from "../infrastructure/database/data-source";
-import { Workout } from "../infrastructure/database/entities/Workout";
+import { AppDataSource } from "../infrastructure/database/data-source.js";
+import { Workout } from "../infrastructure/database/entities/Workout.js";
 import { Between, MoreThanOrEqual } from "typeorm";
 
 export class WorkoutRepository {

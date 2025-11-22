@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { WorkoutService } from "../../../application/services/WorkoutService";
+import { WorkoutService } from "../../../application/services/WorkoutService.js";
 
 const CreateSchema = z.object({
   title: z.string().min(3)

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { UserController } from "../controllers/UserController";
-import { UserService } from "../../../application/services/UserService";
-import { TypeOrmUserRepository } from "../../../infrastructure/persistence/TypeOrmUserRepository";
+import { UserController } from "../controllers/UserController.js";
+import { UserService } from "../../../application/services/UserService.js";
+import { TypeOrmUserRepository } from "../../../infrastructure/persistence/TypeOrmUserRepository.js";
 
 const router = Router();
 

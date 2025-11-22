@@ -1,5 +1,5 @@
-import { GoalRepository } from "../repositories/GoalRepository";
-import { GoalType, GoalMetric } from "../infrastructure/database/entities/Goal";
+import { GoalRepository } from "../repositories/GoalRepository.js";
+import { GoalType, GoalMetric } from "../infrastructure/database/entities/Goal.js";
 
 export class GoalService {
   private repository: GoalRepository;

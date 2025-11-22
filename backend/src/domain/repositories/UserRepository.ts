@@ -1,4 +1,4 @@
-import { User, CreateUserDTO, UpdateUserDTO } from "../entities/User";
+import { User, CreateUserDTO, UpdateUserDTO } from "../entities/User.js";
 
 export interface UserRepository {
   findAll(): Promise<User[]>;

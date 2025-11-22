@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../infrastructure/database/data-source";
-import { Meal } from "../infrastructure/database/entities/Meal";
+import { AppDataSource } from "../infrastructure/database/data-source.js";
+import { Meal } from "../infrastructure/database/entities/Meal.js";
 
 export class MealRepository {
   private repository: Repository<Meal>;
