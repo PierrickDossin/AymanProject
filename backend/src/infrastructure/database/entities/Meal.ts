@@ -43,6 +43,7 @@ export class Meal {
 
   @Column({ type: "simple-json", nullable: true })
   items!: Array<{
+    id: string;
     name: string;
     calories: number;
     protein: number;

@@ -14,7 +14,7 @@ export class AnalystAgent {
     const workouts = await workoutRepo
       .createQueryBuilder("workout")
       .where("workout.userId = :userId", { userId })
-      .orderBy("workout.date", "DESC")
+      .orderBy("workout.scheduledDate", "DESC")
       .getMany();
 
     if (workouts.length === 0) {
@@ -30,8 +30,8 @@ export class AnalystAgent {
 
     // 1. Calculate Consistency (Workouts per week)
     const totalWorkouts = workouts.length;
-    const firstWorkoutDate = new Date(workouts[workouts.length - 1].date);
-    const lastWorkoutDate = new Date(workouts[0].date);
+    const firstWorkoutDate = new Date(workouts[workouts.length - 1].scheduledDate);
+    const lastWorkoutDate = new Date(workouts[0].scheduledDate);
     const daysDiff = Math.max(1, (lastWorkoutDate.getTime() - firstWorkoutDate.getTime()) / (1000 * 3600 * 24));
     const weeks = Math.max(1, daysDiff / 7);
     const workoutsPerWeek = (totalWorkouts / weeks).toFixed(1);

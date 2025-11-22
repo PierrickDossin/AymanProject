@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     const workouts = await workoutRepo
       .createQueryBuilder("workout")
       .where("workout.userId = :userId", { userId })
-      .orderBy("workout.date", "DESC")
+      .orderBy("workout.scheduledDate", "DESC")
       .getMany();
 
     res.json(workouts);
@@ -49,11 +49,11 @@ router.get("/:id", async (req, res) => {
 // Create a new workout
 router.post("/", async (req, res) => {
   try {
-    const { userId, name, date, duration, caloriesBurned, exercises } = req.body;
+    const { userId, name, scheduledDate, totalDuration, exercises } = req.body;
 
-    if (!userId || !name || !date) {
+    if (!userId || !name || !scheduledDate) {
       return res.status(400).json({ 
-        error: "userId, name, and date are required" 
+        error: "userId, name, and scheduledDate are required" 
       });
     }
 
@@ -61,9 +61,8 @@ router.post("/", async (req, res) => {
     const workout = workoutRepo.create({
       userId,
       name,
-      date,
-      duration: duration || 0,
-      caloriesBurned: caloriesBurned || 0,
+      scheduledDate,
+      totalDuration: totalDuration || 0,
       exercises: exercises || [],
     });
 
@@ -79,7 +78,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, date, duration, caloriesBurned, exercises } = req.body;
+    const { name, scheduledDate, totalDuration, exercises } = req.body;
 
     const workoutRepo = AppDataSource.getRepository(Workout);
     const workout = await workoutRepo.findOne({ where: { id } });
@@ -89,9 +88,8 @@ router.put("/:id", async (req, res) => {
     }
 
     workout.name = name !== undefined ? name : workout.name;
-    workout.date = date !== undefined ? date : workout.date;
-    workout.duration = duration !== undefined ? duration : workout.duration;
-    workout.caloriesBurned = caloriesBurned !== undefined ? caloriesBurned : workout.caloriesBurned;
+    workout.scheduledDate = scheduledDate !== undefined ? scheduledDate : workout.scheduledDate;
+    workout.totalDuration = totalDuration !== undefined ? totalDuration : workout.totalDuration;
     workout.exercises = exercises !== undefined ? exercises : workout.exercises;
 
     const updatedWorkout = await workoutRepo.save(workout);

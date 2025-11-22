@@ -1,5 +1,5 @@
 import { MealRepository } from "../repositories/MealRepository";
-import { MealType } from "../models/Meal";
+import { MealType } from "../infrastructure/database/entities/Meal";
 
 export class MealService {
   private repository: MealRepository;

@@ -49,11 +49,11 @@ router.get("/:id", async (req, res) => {
 // Create a new goal
 router.post("/", async (req, res) => {
   try {
-    const { userId, type, targetValue, currentValue, targetDate, status, notes } = req.body;
+    const { userId, type, goalValue, currentValue, targetDate, status, description } = req.body;
 
-    if (!userId || !type || !targetValue) {
+    if (!userId || !type || !goalValue) {
       return res.status(400).json({ 
-        error: "userId, type, and targetValue are required" 
+        error: "userId, type, and goalValue are required" 
       });
     }
 
@@ -61,11 +61,11 @@ router.post("/", async (req, res) => {
     const goal = goalRepo.create({
       userId,
       type,
-      targetValue,
+      goalValue,
       currentValue: currentValue || 0,
       targetDate,
       status: status || "active",
-      notes,
+      description,
     });
 
     const savedGoal = await goalRepo.save(goal);
@@ -80,7 +80,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { type, targetValue, currentValue, targetDate, status, notes } = req.body;
+    const { type, goalValue, currentValue, targetDate, status, description } = req.body;
 
     const goalRepo = AppDataSource.getRepository(Goal);
     const goal = await goalRepo.findOne({ where: { id } });
@@ -90,11 +90,11 @@ router.put("/:id", async (req, res) => {
     }
 
     goal.type = type !== undefined ? type : goal.type;
-    goal.targetValue = targetValue !== undefined ? targetValue : goal.targetValue;
+    goal.goalValue = goalValue !== undefined ? goalValue : goal.goalValue;
     goal.currentValue = currentValue !== undefined ? currentValue : goal.currentValue;
     goal.targetDate = targetDate !== undefined ? targetDate : goal.targetDate;
     goal.status = status !== undefined ? status : goal.status;
-    goal.notes = notes !== undefined ? notes : goal.notes;
+    goal.description = description !== undefined ? description : goal.description;
 
     const updatedGoal = await goalRepo.save(goal);
     res.json(updatedGoal);
