@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
 import path from "path";
 import { fileURLToPath } from "url";
 import { User } from "./entities/User";
@@ -11,15 +11,42 @@ import { Exercise } from "./entities/Exercise";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const AppDataSource = new DataSource({
-  type: "better-sqlite3",
-  database: path.join(__dirname, "../../../database.sqlite"),
-  synchronize: true, // Auto-create tables (disable in production)
-  logging: false,
-  entities: [User, Meal, Goal, Workout, Exercise],
-  migrations: [],
-  subscribers: [],
-});
+// Entities array
+const entities = [User, Meal, Goal, Workout, Exercise];
+
+// Check if we're using Supabase/PostgreSQL or local SQLite
+const isProduction = process.env.DATABASE_URL !== undefined;
+
+let dataSourceConfig: DataSourceOptions;
+
+if (isProduction) {
+  // Production: Use PostgreSQL (Supabase)
+  dataSourceConfig = {
+    type: "postgres",
+    url: process.env.DATABASE_URL,
+    synchronize: false, // IMPORTANT: Never use synchronize in production
+    logging: process.env.NODE_ENV === "development",
+    entities,
+    migrations: [],
+    subscribers: [],
+    ssl: {
+      rejectUnauthorized: false, // Required for Supabase
+    },
+  };
+} else {
+  // Development: Use SQLite
+  dataSourceConfig = {
+    type: "better-sqlite3",
+    database: path.join(__dirname, "../../../database.sqlite"),
+    synchronize: true, // Auto-create tables in development
+    logging: false,
+    entities,
+    migrations: [],
+    subscribers: [],
+  };
+}
+
+export const AppDataSource = new DataSource(dataSourceConfig);
 
 export const initializeDatabase = async () => {
   try {
