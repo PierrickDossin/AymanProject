@@ -28,11 +28,23 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || "http://localhost:8080",
-    "https://lift-grow-thrive.vercel.app",
-    /\.vercel\.app$/
-  ],
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      process.env.FRONTEND_URL || "http://localhost:8080",
+      "https://lift-grow-thrive.vercel.app"
+    ];
+    
+    // Check if origin matches allowed list or Vercel regex
+    if (allowedOrigins.indexOf(origin) !== -1 || /\.vercel\.app$/.test(origin)) {
+      return callback(null, true);
+    }
+    
+    console.log("Blocked by CORS:", origin);
+    return callback(null, false);
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
