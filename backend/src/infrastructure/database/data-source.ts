@@ -28,7 +28,7 @@ if (isProduction) {
   dataSourceConfig = {
     type: "postgres",
     url: process.env.DATABASE_URL,
-    synchronize: false, // IMPORTANT: Never use synchronize in production
+    synchronize: process.env.DB_SYNC === "true", // Allow auto-schema sync via env var
     logging: process.env.NODE_ENV === "development",
     entities,
     migrations: [],
