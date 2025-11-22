@@ -36,6 +36,9 @@ if (isProduction) {
     ssl: {
       rejectUnauthorized: false, // Required for Supabase
     },
+    extra: {
+      family: 4 // Force IPv4 to avoid ENETUNREACH errors
+    }
   };
 } else {
   // Development: Use SQLite
