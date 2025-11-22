@@ -6,7 +6,7 @@ Use these exact values for your new Railway and Vercel projects.
 
 | Variable Name | Value |
 | :--- | :--- |
-| `DATABASE_URL` | `postgresql://postgres:ycR9QX5Xk6GA7Mio@db.wkwoggthnhemqcrnbdnc.supabase.co:5432/postgres` |
+| `DATABASE_URL` | `postgresql://postgres.wkwoggthnhemqcrnbdnc:ycR9QX5Xk6GA7Mio@aws-0-eu-central-1.pooler.supabase.com:6543/postgres` |
 | `DB_SYNC` | `true` (Set this to create tables on first run!) |
 | `FRONTEND_URL` | `https://your-new-frontend-url.vercel.app` (Update this after deploying Vercel) |
 | `PORT` | `4000` |
