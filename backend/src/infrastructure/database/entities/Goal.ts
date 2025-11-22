@@ -66,5 +66,5 @@ export class Goal {
 
   @ManyToOne(() => User, (user: User) => user.goals, { onDelete: "CASCADE" })
   @JoinColumn({ name: "userId" })
-  user!: User;
+  user!: any;
 }
