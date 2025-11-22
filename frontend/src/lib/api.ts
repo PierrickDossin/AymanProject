@@ -1,10 +1,15 @@
 // API client for the backend
 const getApiUrl = () => {
   let url = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
-  if (!url.startsWith("http")) {
-    url = `https://${url}`;
+  
+  if (url.includes("localhost")) {
+    return url;
   }
-  return url;
+
+  // Remove existing protocol (http://, https://, //, https//, http/) to normalize
+  url = url.replace(/^(https?:)?\/*/, "");
+  
+  return `https://${url}`;
 }
 const API_BASE_URL = getApiUrl();
 
