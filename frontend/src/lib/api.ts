@@ -1,5 +1,12 @@
 // API client for the backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+const getApiUrl = () => {
+  let url = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+  if (!url.startsWith("http")) {
+    url = `https://${url}`;
+  }
+  return url;
+}
+const API_BASE_URL = getApiUrl();
 
 export interface FoodItem {
   id: string;
