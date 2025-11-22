@@ -24,12 +24,19 @@ app.use(cors({
   origin: [
     process.env.FRONTEND_URL || "http://localhost:8080",
     "https://lift-grow-thrive.vercel.app",
-    "https://ayman-project-212y2ar8l-pierrickdossins-projects.vercel.app"
+    /\.vercel\.app$/
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
+// Debug middleware to log incoming requests and origins
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - Origin: ${req.headers.origin}`);
+  next();
+});
+
 app.use(morgan("dev"));
 
 // Session configuration

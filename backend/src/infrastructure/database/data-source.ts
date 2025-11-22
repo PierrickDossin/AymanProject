@@ -20,6 +20,10 @@ const isProduction = process.env.DATABASE_URL !== undefined;
 let dataSourceConfig: DataSourceOptions;
 
 if (isProduction) {
+  if (!process.env.DATABASE_URL) {
+    console.error("❌ FATAL ERROR: DATABASE_URL is missing in production environment!");
+    process.exit(1);
+  }
   // Production: Use PostgreSQL (Supabase)
   dataSourceConfig = {
     type: "postgres",
