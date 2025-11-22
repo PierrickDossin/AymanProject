@@ -32,12 +32,12 @@ export class User {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @OneToMany(() => Meal, (meal: Meal) => meal.user)
-  meals!: Meal[];
+  @OneToMany(() => Meal, (meal: any) => meal.user)
+  meals!: any[];
 
-  @OneToMany(() => Goal, (goal: Goal) => goal.user)
-  goals!: Goal[];
+  @OneToMany(() => Goal, (goal: any) => goal.user)
+  goals!: any[];
 
-  @OneToMany(() => Workout, (workout: Workout) => workout.user)
-  workouts!: Workout[];
+  @OneToMany(() => Workout, (workout: any) => workout.user)
+  workouts!: any[];
 }

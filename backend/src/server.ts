@@ -21,7 +21,11 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:8080",
+  origin: [
+    process.env.FRONTEND_URL || "http://localhost:8080",
+    "https://lift-grow-thrive.vercel.app",
+    "https://ayman-project-212y2ar8l-pierrickdossins-projects.vercel.app"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
