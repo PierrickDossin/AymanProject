@@ -125,7 +125,7 @@ const Dashboard = () => {
             </span>
           </div>
           <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30">
-            <div className="flex justify-around items-center gap-4">
+            <div className="flex justify-center items-center gap-2 sm:gap-4 overflow-x-auto">
               <CircularProgress
                 value={caloriesConsumed}
                 max={caloriesTarget}
@@ -163,7 +163,7 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold text-foreground">Macros</h2>
           </div>
           <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30">
-            <div className="flex justify-around items-center gap-4">
+            <div className="flex justify-center items-center gap-2 sm:gap-4 overflow-x-auto">
               <CircularProgress
                 value={protein}
                 max={proteinTarget}
