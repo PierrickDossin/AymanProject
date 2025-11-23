@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search, Dumbbell, X } from "lucide-react";
+import { Search, Dumbbell, X, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import BottomNav from "@/components/BottomNav";
 
@@ -12,6 +13,7 @@ const MUSCLE_GROUPS = ["all", "chest", "back", "legs", "shoulders", "arms", "cor
 const EQUIPMENT_TYPES = ["all", "barbell", "dumbbell", "machine", "bodyweight", "cable", "other"];
 
 export default function ExerciseLibrary() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMuscle, setSelectedMuscle] = useState("all");
   const [selectedEquipment, setSelectedEquipment] = useState("all");
@@ -36,9 +38,19 @@ export default function ExerciseLibrary() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="bg-card shadow-soft sticky top-0 z-40">
-        <div className="max-w-md mx-auto px-4 py-4">
-          <h1 className="text-2xl font-semibold text-foreground">Exercise Library</h1>
-          <p className="text-sm text-muted-foreground mt-1">{exercises.length}+ exercises</p>
+        <div className="max-w-md mx-auto px-4 py-4 flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate(-1)}
+            className="shrink-0"
+          >
+            <ArrowLeft size={20} />
+          </Button>
+          <div className="flex-1">
+            <h1 className="text-2xl font-semibold text-foreground">Exercise Library</h1>
+            <p className="text-sm text-muted-foreground mt-1">{exercises.length}+ exercises</p>
+          </div>
         </div>
       </header>
 
