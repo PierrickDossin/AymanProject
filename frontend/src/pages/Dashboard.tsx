@@ -213,7 +213,7 @@ const Dashboard = () => {
                   progress={{
                     current: weightGoal.currentValue,
                     target: weightGoal.goalValue,
-                    start: weightGoal.startValue,
+                    start: weightGoal.startValue || weightGoal.currentValue,
                   }}
                   goalId={weightGoal.id}
                   metric={weightGoal.metric}
@@ -228,7 +228,7 @@ const Dashboard = () => {
                   progress={{
                     current: bodyFatGoal.currentValue,
                     target: bodyFatGoal.goalValue,
-                    start: bodyFatGoal.startValue,
+                    start: bodyFatGoal.startValue || bodyFatGoal.currentValue,
                   }}
                   goalId={bodyFatGoal.id}
                   metric={bodyFatGoal.metric}
