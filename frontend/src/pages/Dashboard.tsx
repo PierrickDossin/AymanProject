@@ -34,8 +34,19 @@ const Dashboard = () => {
     enabled: !!user?.id,
   });
   
+  // Fetch active goals
+  const { data: goals } = useQuery({
+    queryKey: ['goals', user?.id],
+    queryFn: () => api.getGoals(user!.id),
+    enabled: !!user?.id,
+  });
+  
   const waterConsumed = waterStats?.totalToday || 0;
   const waterGoal = waterStats?.goal || 1500;
+  
+  // Get weight goal if exists
+  const weightGoal = goals?.find(g => g.type === 'weight' && g.status === 'active');
+  const bodyFatGoal = goals?.find(g => g.type === 'body_fat' && g.status === 'active');
   
   const caloriesConsumed = mealTotals?.totalCalories || 0;
   const protein = mealTotals?.totalProtein || 0;
@@ -322,6 +333,38 @@ const Dashboard = () => {
         <section className="space-y-4 animate-slide-up" style={{ animationDelay: "0.1s" }}>
           <h2 className="text-xl font-bold text-foreground">Your Stats</h2>
           <div className="grid grid-cols-2 gap-4">
+            {weightGoal && (
+              <StatCard
+                title={weightGoal.name}
+                value={`${weightGoal.currentValue}${weightGoal.metric}`}
+                subtitle={`Goal: ${weightGoal.goalValue}${weightGoal.metric}`}
+                icon={<Scale size={22} />}
+                trend={
+                  weightGoal.currentValue !== weightGoal.goalValue
+                    ? {
+                        value: `${Math.abs(weightGoal.goalValue - weightGoal.currentValue).toFixed(1)}${weightGoal.metric} to go`,
+                        positive: weightGoal.currentValue < weightGoal.goalValue,
+                      }
+                    : undefined
+                }
+              />
+            )}
+            {bodyFatGoal && (
+              <StatCard
+                title={bodyFatGoal.name}
+                value={`${bodyFatGoal.currentValue}${bodyFatGoal.metric}`}
+                subtitle={`Goal: ${bodyFatGoal.goalValue}${bodyFatGoal.metric}`}
+                icon={<TrendingUp size={22} />}
+                trend={
+                  bodyFatGoal.currentValue !== bodyFatGoal.goalValue
+                    ? {
+                        value: `${Math.abs(bodyFatGoal.goalValue - bodyFatGoal.currentValue).toFixed(1)}${bodyFatGoal.metric} to go`,
+                        positive: bodyFatGoal.currentValue > bodyFatGoal.goalValue,
+                      }
+                    : undefined
+                }
+              />
+            )}
             <StatCard
               title="Weekly Workouts"
               value="0/5"
