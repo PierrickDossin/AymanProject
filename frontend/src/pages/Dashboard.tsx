@@ -119,12 +119,12 @@ const Dashboard = () => {
             </span>
           </div>
           <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30">
-            <div className="flex justify-center items-center gap-2 sm:gap-4 overflow-x-auto">
+            <div className="flex justify-between items-center gap-1">
               <CircularProgress
                 value={caloriesConsumed}
                 max={caloriesTarget}
-                size={110}
-                strokeWidth={10}
+                size={90}
+                strokeWidth={8}
                 color="hsl(199, 89%, 48%)"
                 label="Consumed"
                 sublabel="kcal"
@@ -132,8 +132,8 @@ const Dashboard = () => {
               <CircularProgress
                 value={caloriesBurned}
                 max={600}
-                size={110}
-                strokeWidth={10}
+                size={90}
+                strokeWidth={8}
                 color="hsl(14, 90%, 60%)"
                 label="Burned"
                 sublabel="kcal"
@@ -141,8 +141,8 @@ const Dashboard = () => {
               <CircularProgress
                 value={caloriesRemaining}
                 max={caloriesTarget}
-                size={110}
-                strokeWidth={10}
+                size={90}
+                strokeWidth={8}
                 color="hsl(142, 76%, 36%)"
                 label="Remaining"
                 sublabel="kcal"
@@ -157,12 +157,12 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold text-foreground">Macros</h2>
           </div>
           <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30">
-            <div className="flex justify-center items-center gap-2 sm:gap-4 overflow-x-auto">
+            <div className="flex justify-between items-center gap-1">
               <CircularProgress
                 value={protein}
                 max={proteinTarget}
-                size={110}
-                strokeWidth={10}
+                size={90}
+                strokeWidth={8}
                 color="hsl(199, 89%, 48%)"
                 label="Protein"
                 sublabel="g"
@@ -170,8 +170,8 @@ const Dashboard = () => {
               <CircularProgress
                 value={carbs}
                 max={carbsTarget}
-                size={110}
-                strokeWidth={10}
+                size={90}
+                strokeWidth={8}
                 color="hsl(47, 90%, 55%)"
                 label="Carbs"
                 sublabel="g"
@@ -179,8 +179,8 @@ const Dashboard = () => {
               <CircularProgress
                 value={fat}
                 max={fatTarget}
-                size={110}
-                strokeWidth={10}
+                size={90}
+                strokeWidth={8}
                 color="hsl(14, 90%, 60%)"
                 label="Fat"
                 sublabel="g"
