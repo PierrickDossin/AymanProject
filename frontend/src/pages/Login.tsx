@@ -21,7 +21,9 @@ const Login = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
-          redirectTo: `${window.location.origin}/`,
+          redirectTo: window.location.hostname === 'localhost' 
+            ? 'http://localhost:8080/' 
+            : 'https://lift-grow-thrive.vercel.app/',
         },
       });
 
