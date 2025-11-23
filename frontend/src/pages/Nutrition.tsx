@@ -101,10 +101,10 @@ export default function Nutrition() {
       <main className="max-w-md mx-auto px-4 py-6 space-y-6">
         <section className="animate-slide-up">
           <Card className="p-6 shadow-medium">
-            <div className="flex justify-around items-center mb-6">
-              <CircularProgress value={totals.calories} max={2400} color="hsl(197, 92%, 50%)" label="Consumed" sublabel="kcal" />
-              <CircularProgress value={420} max={600} color="hsl(25, 95%, 53%)" label="Burned" sublabel="kcal" />
-              <CircularProgress value={Math.max(0, 2400 - totals.calories)} max={2400} color="hsl(142, 71%, 45%)" label="Remaining" sublabel="kcal" />
+            <div className="flex justify-between items-center gap-1">
+              <CircularProgress value={totals.calories} max={2400} size={90} strokeWidth={8} color="hsl(197, 92%, 50%)" label="Consumed" sublabel="kcal" />
+              <CircularProgress value={420} max={600} size={90} strokeWidth={8} color="hsl(25, 95%, 53%)" label="Burned" sublabel="kcal" />
+              <CircularProgress value={Math.max(0, 2400 - totals.calories)} max={2400} size={90} strokeWidth={8} color="hsl(142, 71%, 45%)" label="Remaining" sublabel="kcal" />
             </div>
           </Card>
         </section>
