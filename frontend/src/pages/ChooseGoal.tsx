@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Scale, Percent, Dumbbell, Trophy } from "lucide-react";
+import { ArrowLeft, Scale, Percent, Dumbbell, Trophy, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 const ChooseGoal = () => {
   const goalTypes = [
     {
-      title: "Weight",
-      icon: <Scale size={32} />,
-      description: "Track your weight goals",
-      path: "/goals/weight",
+      title: "Weight Gain",
+      icon: <TrendingUp size={32} />,
+      description: "Build mass & gain weight",
+      path: "/goals/weight-gain",
+    },
+    {
+      title: "Weight Loss",
+      icon: <TrendingDown size={32} />,
+      description: "Lose weight & get lean",
+      path: "/goals/weight-loss",
     },
     {
       title: "Body Fat",

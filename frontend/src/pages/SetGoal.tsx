@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { ArrowLeft, Scale, Percent, Dumbbell, Trophy } from "lucide-react";
+import { ArrowLeft, Scale, Percent, Dumbbell, Trophy, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const goalTypeConfig = {
-  weight: { icon: Scale, label: "Weight", unit: "kg" },
+  "weight-gain": { icon: TrendingUp, label: "Weight Gain", unit: "kg" },
+  "weight-loss": { icon: TrendingDown, label: "Weight Loss", unit: "kg" },
   "body-fat": { icon: Percent, label: "Body Fat", unit: "%" },
   "muscle-mass": { icon: Dumbbell, label: "Muscle Mass", unit: "kg" },
 };
@@ -39,7 +40,8 @@ const SetGoal = () => {
       if (!user) throw new Error("Not authenticated");
 
       const goalTypeMap: Record<string, "muscle_mass" | "weight" | "performance" | "body_fat"> = {
-        "weight": "weight",
+        "weight-gain": "weight",
+        "weight-loss": "weight",
         "body-fat": "body_fat",
         "muscle-mass": "muscle_mass"
       };
