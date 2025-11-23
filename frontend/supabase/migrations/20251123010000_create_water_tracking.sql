@@ -1,3 +1,60 @@
+-- Create profiles table if it doesn't exist
+CREATE TABLE IF NOT EXISTS public.profiles (
+  id UUID REFERENCES auth.users(id) PRIMARY KEY,
+  username TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  avatar_url TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable RLS on profiles
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Profiles policies
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE schemaname = 'public' 
+    AND tablename = 'profiles' 
+    AND policyname = 'Public profiles are viewable by everyone'
+  ) THEN
+    CREATE POLICY "Public profiles are viewable by everyone"
+      ON public.profiles FOR SELECT
+      USING (true);
+  END IF;
+END $$;
+
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE schemaname = 'public' 
+    AND tablename = 'profiles' 
+    AND policyname = 'Users can insert their own profile'
+  ) THEN
+    CREATE POLICY "Users can insert their own profile"
+      ON public.profiles FOR INSERT
+      WITH CHECK (auth.uid() = id);
+  END IF;
+END $$;
+
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE schemaname = 'public' 
+    AND tablename = 'profiles' 
+    AND policyname = 'Users can update their own profile'
+  ) THEN
+    CREATE POLICY "Users can update their own profile"
+      ON public.profiles FOR UPDATE
+      USING (auth.uid() = id);
+  END IF;
+END $$;
+
 -- Add water_goal to profiles table (in milliliters, default 1500ml = 1.5L)
 ALTER TABLE public.profiles 
 ADD COLUMN IF NOT EXISTS water_goal INTEGER DEFAULT 1500;
