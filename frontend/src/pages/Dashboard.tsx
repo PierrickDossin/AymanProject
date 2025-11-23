@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
@@ -38,10 +39,25 @@ const Dashboard = () => {
   const caloriesRemaining = caloriesTarget - caloriesConsumed + caloriesBurned;
   
   useEffect(() => {
-    // Get avatar URL from user metadata
-    if (user?.user_metadata?.avatar_url) {
-      setAvatarUrl(user.user_metadata.avatar_url);
-    }
+    const fetchAvatar = async () => {
+      if (!user?.id) return;
+      
+      // Try to get avatar from profiles table first
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('id', user.id)
+        .single();
+      
+      if (profile?.avatar_url) {
+        setAvatarUrl(profile.avatar_url);
+      } else if (user?.user_metadata?.avatar_url) {
+        // Fallback to user metadata
+        setAvatarUrl(user.user_metadata.avatar_url);
+      }
+    };
+    
+    fetchAvatar();
   }, [user]);
   
   const handleLogout = async () => {

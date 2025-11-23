@@ -61,8 +61,8 @@ const ProfilePictureDialog = ({
     try {
       // Create unique filename
       const fileExt = selectedFile.name.split(".").pop();
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-      const filePath = `avatars/${fileName}`;
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
 
       // Upload to Supabase Storage
       const { error: uploadError } = await supabase.storage
@@ -87,6 +87,15 @@ const ProfilePictureDialog = ({
       });
 
       if (updateError) throw updateError;
+
+      // Also update profile in database if it exists
+      await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          avatar_url: publicUrl,
+          updated_at: new Date().toISOString(),
+        });
 
       onUploadComplete(publicUrl);
       onOpenChange(false);
