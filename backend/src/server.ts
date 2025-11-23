@@ -21,6 +21,7 @@ import exercisesRoutes from "./routes/exercises.js";
 import workoutsRoutes from "./routes/workouts.js";
 import agentsRoutes from "./routes/agents.js";
 import authRoutes from "./routes/auth.js";
+import exerciseLogsRoutes from "./routes/exercise-logs.js";
 import { initializeDatabase } from "./infrastructure/database/data-source.js";
 
 const app = express();
@@ -83,6 +84,7 @@ app.use("/api/goals", goalsRoutes);
 app.use("/api/exercises", exercisesRoutes);
 app.use("/api/workouts", workoutsRoutes);
 app.use("/api/agents", agentsRoutes);
+app.use("/api/exercise-logs", exerciseLogsRoutes);
 
 // Start server
 const startServer = async () => {

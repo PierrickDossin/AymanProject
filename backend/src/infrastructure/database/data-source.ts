@@ -7,12 +7,13 @@ import { Meal } from "./entities/Meal.js";
 import { Goal } from "./entities/Goal.js";
 import { Workout } from "./entities/Workout.js";
 import { Exercise } from "./entities/Exercise.js";
+import { ExerciseLog } from "./entities/ExerciseLog.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Entities array
-const entities = [User, Meal, Goal, Workout, Exercise];
+const entities = [User, Meal, Goal, Workout, Exercise, ExerciseLog];
 
 // Check if we're using Supabase/PostgreSQL or local SQLite
 const isProduction = process.env.DATABASE_URL !== undefined;
