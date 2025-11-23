@@ -2,7 +2,7 @@ import BottomNav from "@/components/BottomNav";
 import CircularProgress from "@/components/CircularProgress";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Apple, Coffee, UtensilsCrossed, Moon, Trash2 } from "lucide-react";
+import { Plus, Apple, Coffee, UtensilsCrossed, Moon, Trash2, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { api, type Meal as ApiMeal } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
@@ -31,9 +31,24 @@ export default function Nutrition() {
   const { user } = useAuth();
   const [selectedMeal, setSelectedMeal] = useState<ApiMeal | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ mealId: string; foodId: string; foodName: string } | null>(null);
+  const [savedGoals, setSavedGoals] = useState({ calories: 2400, protein: 180, carbs: 250, fat: 65 });
   const queryClient = useQueryClient();
 
   const today = new Date().toISOString().split("T")[0];
+
+  // Load saved calorie goals
+  useEffect(() => {
+    const saved = localStorage.getItem("calorieGoals");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setSavedGoals({
+        calories: parsed.calories || 2400,
+        protein: parsed.protein || 180,
+        carbs: parsed.carbs || 250,
+        fat: parsed.fat || 65,
+      });
+    }
+  }, []);
 
   // Fetch meals for today
   const { data: mealsData = [] } = useQuery({
@@ -96,15 +111,20 @@ export default function Nutrition() {
             <h1 className="text-2xl font-semibold text-foreground">Nutrition</h1>
             <p className="text-sm text-muted-foreground mt-1">Today</p>
           </div>
+          <Link to="/nutrition/goals">
+            <Button variant="outline" size="icon" className="rounded-full">
+              <Settings size={20} />
+            </Button>
+          </Link>
         </div>
       </header>
       <main className="max-w-md mx-auto px-4 py-6 space-y-6">
         <section className="animate-slide-up">
           <Card className="p-6 shadow-medium">
             <div className="flex justify-between items-center gap-1">
-              <CircularProgress value={totals.calories} max={2400} size={90} strokeWidth={8} color="hsl(197, 92%, 50%)" label="Consumed" sublabel="kcal" />
+              <CircularProgress value={totals.calories} max={savedGoals.calories} size={90} strokeWidth={8} color="hsl(197, 92%, 50%)" label="Consumed" sublabel="kcal" />
               <CircularProgress value={420} max={600} size={90} strokeWidth={8} color="hsl(25, 95%, 53%)" label="Burned" sublabel="kcal" />
-              <CircularProgress value={Math.max(0, 2400 - totals.calories)} max={2400} size={90} strokeWidth={8} color="hsl(142, 71%, 45%)" label="Remaining" sublabel="kcal" />
+              <CircularProgress value={Math.max(0, savedGoals.calories - totals.calories)} max={savedGoals.calories} size={90} strokeWidth={8} color="hsl(142, 71%, 45%)" label="Remaining" sublabel="kcal" />
             </div>
           </Card>
         </section>
@@ -119,13 +139,13 @@ export default function Nutrition() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-foreground">Protein</span>
                   <span className="text-sm font-semibold text-foreground">
-                    {Math.round(totals.protein)}g / 180g
+                    {Math.round(totals.protein)}g / {savedGoals.protein}g
                   </span>
                 </div>
                 <div className="h-3 bg-secondary rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min((totals.protein / 180) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((totals.protein / savedGoals.protein) * 100, 100)}%` }}
                   />
                 </div>
               </div>
@@ -135,13 +155,13 @@ export default function Nutrition() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-foreground">Carbs</span>
                   <span className="text-sm font-semibold text-foreground">
-                    {Math.round(totals.carbs)}g / 250g
+                    {Math.round(totals.carbs)}g / {savedGoals.carbs}g
                   </span>
                 </div>
                 <div className="h-3 bg-secondary rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min((totals.carbs / 250) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((totals.carbs / savedGoals.carbs) * 100, 100)}%` }}
                   />
                 </div>
               </div>
@@ -151,13 +171,13 @@ export default function Nutrition() {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-foreground">Fat</span>
                   <span className="text-sm font-semibold text-foreground">
-                    {Math.round(totals.fat)}g / 65g
+                    {Math.round(totals.fat)}g / {savedGoals.fat}g
                   </span>
                 </div>
                 <div className="h-3 bg-secondary rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min((totals.fat / 65) * 100, 100)}%` }}
+                    style={{ width: `${Math.min((totals.fat / savedGoals.fat) * 100, 100)}%` }}
                   />
                 </div>
               </div>
