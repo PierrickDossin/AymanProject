@@ -42,11 +42,31 @@ const Dashboard = () => {
   const carbs = mealTotals?.totalCarbs || 0;
   const fat = mealTotals?.totalFat || 0;
   
-  const caloriesTarget = 2400;
-  const proteinTarget = 180; // grams
-  const carbsTarget = 250; // grams
-  const fatTarget = 65; // grams
-  const caloriesBurned = 420;
+  // Load saved goals from localStorage
+  const [savedGoals, setSavedGoals] = useState(() => {
+    const saved = localStorage.getItem('calorieGoals');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return {
+        calories: parsed.calories || 2000,
+        protein: parsed.protein || 150,
+        carbs: parsed.carbs || 200,
+        fat: parsed.fat || 60,
+      };
+    }
+    return {
+      calories: 2000,
+      protein: 150,
+      carbs: 200,
+      fat: 60,
+    };
+  });
+  
+  const caloriesTarget = savedGoals.calories;
+  const proteinTarget = savedGoals.protein;
+  const carbsTarget = savedGoals.carbs;
+  const fatTarget = savedGoals.fat;
+  const caloriesBurned = 0; // Will be calculated from workouts later
   const caloriesRemaining = caloriesTarget - caloriesConsumed + caloriesBurned;
   
   useEffect(() => {
@@ -303,30 +323,17 @@ const Dashboard = () => {
           <h2 className="text-xl font-bold text-foreground">Your Stats</h2>
           <div className="grid grid-cols-2 gap-4">
             <StatCard
-              title="Current Weight"
-              value="75.2"
-              subtitle="kg"
-              icon={<Scale size={22} />}
-              trend={{ value: "0.5kg this week", positive: true }}
-            />
-            <StatCard
-              title="Goal Progress"
-              value="68%"
-              subtitle="12 weeks left"
-              icon={<Target size={22} />}
-            />
-            <StatCard
               title="Weekly Workouts"
-              value="4/5"
+              value="0/5"
               subtitle="This week"
               icon={<Dumbbell size={22} />}
             />
             <StatCard
               title="Streak"
-              value="12"
+              value="0"
               subtitle="days"
               icon={<Flame size={22} />}
-              trend={{ value: "Keep it up!", positive: true }}
+              trend={{ value: "Start logging!", positive: true }}
             />
           </div>
         </section>
