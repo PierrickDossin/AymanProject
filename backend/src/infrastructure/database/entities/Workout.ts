@@ -32,7 +32,7 @@ export class Workout {
   @Column({ type: "varchar", default: "planned" })
   status!: string; // planned, completed, skipped
 
-  @Column({ type: "datetime", nullable: true })
+  @Column({ type: "timestamp", nullable: true })
   completedAt!: Date | null;
 
   @Column({ type: "text", nullable: true })
