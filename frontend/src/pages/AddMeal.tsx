@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Plus, Trash2, Pencil } from "lucide-react";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
 import { api, type FoodItem } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -23,7 +22,6 @@ import {
 const AddMeal = () => {
   const { mealType } = useParams<{ mealType: string }>();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { user } = useAuth();
   
@@ -55,11 +53,6 @@ const AddMeal = () => {
 
   const addOrUpdateFood = () => {
     if (!currentFood.name || currentFood.calories === 0) {
-      toast({
-        title: "Missing information",
-        description: "Please enter food name and calories.",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -150,18 +143,10 @@ const AddMeal = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["meals"] });
-      toast({
-        title: "Meal saved",
-        description: "Your meal has been logged successfully.",
-      });
       navigate("/nutrition");
     },
     onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to save meal. Please try again.",
-        variant: "destructive",
-      });
+      // Silent error handling
     },
   });
 

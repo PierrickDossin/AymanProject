@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Timer, CheckCircle2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
 const ActiveWorkout = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(true);
   const [completedExercises, setCompletedExercises] = useState<string[]>([]);
@@ -49,10 +47,6 @@ const ActiveWorkout = () => {
 
   const finishWorkout = () => {
     setIsActive(false);
-    toast({
-      title: "Workout Completed! 🎉",
-      description: `You finished ${workout.name} in ${formatTime(seconds)}`,
-    });
     navigate("/training");
   };
 

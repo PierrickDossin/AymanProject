@@ -18,10 +18,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
 
 const Goals = () => {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<any>(null);
@@ -47,17 +45,9 @@ const Goals = () => {
       setIsDialogOpen(false);
       setProgressValue("");
       setSelectedGoal(null);
-      toast({
-        title: "Progress logged",
-        description: "Your progress has been updated successfully.",
-      });
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to log progress. Please try again.",
-        variant: "destructive",
-      });
+      // Silent error handling
     },
   });
 

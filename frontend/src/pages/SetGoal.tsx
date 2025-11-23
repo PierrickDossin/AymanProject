@@ -11,7 +11,6 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { api } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const goalTypeConfig = {
@@ -23,7 +22,6 @@ const goalTypeConfig = {
 const SetGoal = () => {
   const { type } = useParams<{ type: string }>();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const [currentValue, setCurrentValue] = useState("");
@@ -58,10 +56,6 @@ const SetGoal = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
-      toast({
-        title: "Goal created!",
-        description: "Your goal has been successfully set.",
-      });
       navigate("/goals");
     },
     onError: (error) => {
@@ -70,20 +64,6 @@ const SetGoal = () => {
         message: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
         details: error
-      });
-
-      let errorMessage = "Failed to create goal. Please try again.";
-
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === 'object' && error !== null) {
-        errorMessage = JSON.stringify(error);
-      }
-
-      toast({
-        title: "Error",
-        description: errorMessage,
-        variant: "destructive",
       });
     },
   });
@@ -97,11 +77,6 @@ const SetGoal = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentValue || !targetValue || !targetDate) {
-      toast({
-        title: "Missing fields",
-        description: "Please fill in all fields.",
-        variant: "destructive",
-      });
       return;
     }
 

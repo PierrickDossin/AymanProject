@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { Dumbbell, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 
@@ -18,14 +17,10 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
   const { signUp } = useAuth();
 
   const handleSocialLogin = (provider: string) => {
-    toast({
-      title: "Coming Soon",
-      description: `${provider} sign up will be available shortly!`,
-    });
+    // Social login placeholder
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -33,21 +28,11 @@ const SignUp = () => {
 
     // Validate passwords match
     if (password !== confirmPassword) {
-      toast({
-        title: "Passwords don't match",
-        description: "Please make sure both passwords are the same.",
-        variant: "destructive",
-      });
       return;
     }
 
     // Validate password length
     if (password.length < 6) {
-      toast({
-        title: "Password too short",
-        description: "Password must be at least 6 characters long.",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -55,18 +40,9 @@ const SignUp = () => {
 
     try {
       await signUp({ username, firstName, lastName, email, password });
-      toast({
-        title: "Account Created! 🎉",
-        description: "Welcome to your fitness journey!",
-      });
       navigate("/");
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to create account.";
-      toast({
-        title: "Sign Up Failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      // Silent error handling
     } finally {
       setIsLoading(false);
     }

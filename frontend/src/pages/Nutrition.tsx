@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
 import { api, type Meal as ApiMeal } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -32,7 +31,6 @@ export default function Nutrition() {
   const { user } = useAuth();
   const [selectedMeal, setSelectedMeal] = useState<ApiMeal | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<{ mealId: string; foodId: string; foodName: string } | null>(null);
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const today = new Date().toISOString().split("T")[0];
@@ -57,7 +55,6 @@ export default function Nutrition() {
     },
     onSuccess: (updatedMeal) => {
       queryClient.invalidateQueries({ queryKey: ["meals"] });
-      toast({ title: "Food item deleted" });
       setDeleteConfirm(null);
       
       // If there are no more items, close the dialog
@@ -69,7 +66,6 @@ export default function Nutrition() {
       }
     },
     onError: () => {
-      toast({ title: "Failed to delete food item", variant: "destructive" });
       setDeleteConfirm(null);
     },
   });

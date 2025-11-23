@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -28,7 +27,6 @@ const ProfilePictureDialog = ({
   onUploadComplete,
 }: ProfilePictureDialogProps) => {
   const { user } = useAuth();
-  const { toast } = useToast();
   const [uploading, setUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -39,21 +37,11 @@ const ProfilePictureDialog = ({
 
     // Validate file type
     if (!file.type.startsWith("image/")) {
-      toast({
-        title: "Invalid file type",
-        description: "Please select an image file.",
-        variant: "destructive",
-      });
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast({
-        title: "File too large",
-        description: "Please select an image smaller than 5MB.",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -100,23 +88,12 @@ const ProfilePictureDialog = ({
 
       if (updateError) throw updateError;
 
-      toast({
-        title: "Profile picture updated! 📸",
-        description: "Your new profile picture has been saved.",
-      });
-
       onUploadComplete(publicUrl);
       onOpenChange(false);
       setPreviewUrl(null);
       setSelectedFile(null);
     } catch (error) {
       console.error("Upload error:", error);
-      toast({
-        title: "Upload failed",
-        description:
-          error instanceof Error ? error.message : "Failed to upload profile picture.",
-        variant: "destructive",
-      });
     } finally {
       setUploading(false);
     }
@@ -137,22 +114,12 @@ const ProfilePictureDialog = ({
 
       if (error) throw error;
 
-      toast({
-        title: "Profile picture removed",
-        description: "Your profile picture has been removed.",
-      });
-
       onUploadComplete("");
       onOpenChange(false);
       setPreviewUrl(null);
       setSelectedFile(null);
     } catch (error) {
       console.error("Remove error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to remove profile picture.",
-        variant: "destructive",
-      });
     } finally {
       setUploading(false);
     }

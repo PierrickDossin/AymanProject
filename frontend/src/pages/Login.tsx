@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { Dumbbell, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
@@ -14,7 +13,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
   const { signIn, socialSignIn } = useAuth();
 
   const handleSocialLogin = (provider: string) => {
@@ -26,11 +24,6 @@ const Login = () => {
 
     const providerKey = providerMap[provider];
     if (!providerKey) {
-      toast({
-        title: "Error",
-        description: "Unknown provider",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -45,18 +38,9 @@ const Login = () => {
 
     try {
       await signIn(email, password);
-      toast({
-        title: "Welcome back! 💪",
-        description: "Successfully logged in.",
-      });
       navigate("/");
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Invalid email or password.";
-      toast({
-        title: "Login Failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      // Silent error handling
     } finally {
       setIsLoading(false);
     }

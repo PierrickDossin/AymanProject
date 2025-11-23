@@ -6,7 +6,6 @@ import { Target, TrendingUp, Flame, Dumbbell, UtensilsCrossed, Scale, LogOut } f
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 const Dashboard = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [profileDialogOpen, setProfileDialogOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   
@@ -48,10 +46,6 @@ const Dashboard = () => {
   
   const handleLogout = async () => {
     await signOut();
-    toast({
-      title: "Logged out",
-      description: "See you next time! 👋",
-    });
     navigate("/login");
   };
   
