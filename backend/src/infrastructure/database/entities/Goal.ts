@@ -45,7 +45,7 @@ export class Goal {
   @Column({ type: "float" })
   goalValue!: number;
 
-  @Column({ type: "float" })
+  @Column({ type: "float", nullable: true })
   startValue!: number;
 
   @Column({
