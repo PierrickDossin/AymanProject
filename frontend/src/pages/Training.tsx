@@ -2,10 +2,20 @@ import { useNavigate } from "react-router-dom";
 import BottomNav from "@/components/BottomNav";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dumbbell, Play, Calendar, TrendingUp, Timer } from "lucide-react";
+import { Dumbbell, Play, Calendar, TrendingUp, Timer, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const Training = () => {
   const navigate = useNavigate();
+  const [selectedWorkout, setSelectedWorkout] = useState<any>(null);
+  
   const todayWorkout = {
     name: "Push Day",
     exercises: 6,
@@ -14,13 +24,45 @@ const Training = () => {
       { name: "Bench Press", sets: 4, reps: "8-10", weight: "80kg" },
       { name: "Shoulder Press", sets: 3, reps: "10-12", weight: "30kg" },
       { name: "Incline Dumbbell Press", sets: 3, reps: "10-12", weight: "25kg" },
+      { name: "Lateral Raises", sets: 3, reps: "15", weight: "10kg" },
+      { name: "Tricep Pushdowns", sets: 3, reps: "12-15", weight: "20kg" },
+      { name: "Overhead Tricep Extension", sets: 3, reps: "12", weight: "15kg" },
     ],
   };
 
   const upcomingWorkouts = [
-    { day: "Tomorrow", name: "Pull Day", type: "Back & Biceps" },
-    { day: "Wednesday", name: "Leg Day", type: "Legs & Core" },
-    { day: "Thursday", name: "Push Day", type: "Chest & Triceps" },
+    { 
+      day: "Tomorrow", 
+      name: "Pull Day", 
+      type: "Back & Biceps",
+      exercises_list: [
+        { name: "Deadlift", sets: 4, reps: "6-8", weight: "100kg" },
+        { name: "Pull-ups", sets: 4, reps: "8-12", weight: "Bodyweight" },
+        { name: "Barbell Row", sets: 4, reps: "8-10", weight: "70kg" },
+        { name: "Lat Pulldown", sets: 3, reps: "10-12", weight: "60kg" },
+        { name: "Barbell Curl", sets: 3, reps: "10-12", weight: "30kg" },
+        { name: "Hammer Curl", sets: 3, reps: "12", weight: "15kg" },
+      ]
+    },
+    { 
+      day: "Wednesday", 
+      name: "Leg Day", 
+      type: "Legs & Core",
+      exercises_list: [
+        { name: "Barbell Back Squat", sets: 4, reps: "8-10", weight: "100kg" },
+        { name: "Romanian Deadlift", sets: 4, reps: "10-12", weight: "80kg" },
+        { name: "Leg Press", sets: 3, reps: "12-15", weight: "150kg" },
+        { name: "Leg Extension", sets: 3, reps: "12-15", weight: "50kg" },
+        { name: "Leg Curl", sets: 3, reps: "12-15", weight: "40kg" },
+        { name: "Calf Raises", sets: 4, reps: "15-20", weight: "60kg" },
+      ]
+    },
+    { 
+      day: "Thursday", 
+      name: "Push Day", 
+      type: "Chest & Triceps",
+      exercises_list: todayWorkout.exercises_list
+    },
   ];
 
   const stats = [
@@ -121,7 +163,8 @@ const Training = () => {
           {upcomingWorkouts.map((workout, index) => (
             <Card 
               key={workout.day} 
-              className="p-4 shadow-soft hover:shadow-medium transition-shadow duration-300"
+              className="p-4 shadow-soft hover:shadow-medium transition-shadow duration-300 cursor-pointer"
+              onClick={() => setSelectedWorkout(workout)}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -136,7 +179,7 @@ const Training = () => {
                     </p>
                   </div>
                 </div>
-                <TrendingUp className="text-muted-foreground" size={20} />
+                <ChevronRight className="text-muted-foreground" size={20} />
               </div>
             </Card>
           ))}
@@ -160,6 +203,40 @@ const Training = () => {
           </Card>
         </section>
       </main>
+
+      {/* Workout Detail Modal */}
+      <Dialog open={!!selectedWorkout} onOpenChange={(open) => !open && setSelectedWorkout(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Dumbbell className="text-primary" size={24} />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">{selectedWorkout?.name}</h2>
+                <p className="text-sm text-muted-foreground font-normal">{selectedWorkout?.type}</p>
+              </div>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 mt-4">
+            <h3 className="font-semibold text-foreground">Exercises</h3>
+            {selectedWorkout?.exercises_list?.map((exercise: any, idx: number) => (
+              <div 
+                key={idx} 
+                className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg"
+              >
+                <div>
+                  <p className="font-medium text-foreground">{exercise.name}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {exercise.sets} sets × {exercise.reps} reps
+                  </p>
+                </div>
+                <span className="text-sm font-semibold text-primary">{exercise.weight}</span>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <BottomNav />
     </div>
