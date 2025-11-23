@@ -67,7 +67,7 @@ const Training = () => {
 
   const stats = [
     { label: "Workouts This Week", value: "4/5" },
-    { label: "Total Volume", value: "12,450 kg" },
+    { label: "Streak", value: "3 days" },
   ];
 
   return (
