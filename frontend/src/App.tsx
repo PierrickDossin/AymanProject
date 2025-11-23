@@ -15,6 +15,7 @@ import GoalDetails from "./pages/GoalDetails";
 import Nutrition from "./pages/Nutrition";
 import AddMeal from "./pages/AddMeal";
 import CalorieGoals from "./pages/CalorieGoals";
+import WaterGoalSettings from "./pages/WaterGoalSettings";
 import Training from "./pages/Training";
 import WorkoutPlanner from "./pages/WorkoutPlanner";
 import ExerciseLibrary from "./pages/ExerciseLibrary";
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="/goals/details/:id" element={<ProtectedRoute><GoalDetails /></ProtectedRoute>} />
             <Route path="/nutrition" element={<ProtectedRoute><Nutrition /></ProtectedRoute>} />
             <Route path="/nutrition/goals" element={<ProtectedRoute><CalorieGoals /></ProtectedRoute>} />
+            <Route path="/nutrition/water-goal" element={<ProtectedRoute><WaterGoalSettings /></ProtectedRoute>} />
             <Route path="/nutrition/add/:mealType" element={<ProtectedRoute><AddMeal /></ProtectedRoute>} />
             <Route path="/training" element={<ProtectedRoute><Training /></ProtectedRoute>} />
             <Route path="/training/planner" element={<ProtectedRoute><WorkoutPlanner /></ProtectedRoute>} />

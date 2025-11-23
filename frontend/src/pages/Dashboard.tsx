@@ -2,7 +2,7 @@ import BottomNav from "@/components/BottomNav";
 import CircularProgress from "@/components/CircularProgress";
 import StatCard from "@/components/StatCard";
 import ProfilePictureDialog from "@/components/ProfilePictureDialog";
-import { Target, TrendingUp, Flame, Dumbbell, UtensilsCrossed, Scale, LogOut } from "lucide-react";
+import { Target, TrendingUp, Flame, Dumbbell, UtensilsCrossed, Scale, LogOut, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { waterApi } from "@/lib/waterApi";
 
 const Dashboard = () => {
   const { user, signOut } = useAuth();
@@ -25,6 +26,16 @@ const Dashboard = () => {
     queryFn: () => api.getMealTotals(user!.id, today),
     enabled: !!user?.id,
   });
+  
+  // Fetch water stats
+  const { data: waterStats, refetch: refetchWater } = useQuery({
+    queryKey: ['waterStats', user?.id, today],
+    queryFn: () => waterApi.getTodayStats(user!.id),
+    enabled: !!user?.id,
+  });
+  
+  const waterConsumed = waterStats?.totalToday || 0;
+  const waterGoal = waterStats?.goal || 1500;
   
   const caloriesConsumed = mealTotals?.totalCalories || 0;
   const protein = mealTotals?.totalProtein || 0;
@@ -201,6 +212,88 @@ const Dashboard = () => {
                 label="Fat"
                 sublabel="g"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Water Intake */}
+        <section className="animate-slide-up" style={{ animationDelay: "0.075s" }}>
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
+              <Droplets size={24} className="text-blue-500" />
+              Water Intake
+            </h2>
+            <Link to="/nutrition/water-goal">
+              <Button variant="ghost" size="icon" className="hover:bg-blue-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </Button>
+            </Link>
+          </div>
+          <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30 space-y-4">
+            <div className="flex justify-center">
+              <CircularProgress
+                value={waterConsumed}
+                max={waterGoal}
+                size={110}
+                strokeWidth={10}
+                color="hsl(199, 89%, 48%)"
+                label={`${(waterConsumed / 1000).toFixed(1)}L`}
+                sublabel={`of ${(waterGoal / 1000).toFixed(1)}L`}
+              />
+            </div>
+            
+            <div className="grid grid-cols-3 gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-14 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20"
+                onClick={async () => {
+                  if (user?.id) {
+                    await waterApi.logWater(user.id, 250);
+                    refetchWater();
+                  }
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-lg font-bold text-blue-600">+250ml</div>
+                  <div className="text-xs text-muted-foreground">Glass</div>
+                </div>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-14 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20"
+                onClick={async () => {
+                  if (user?.id) {
+                    await waterApi.logWater(user.id, 500);
+                    refetchWater();
+                  }
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-lg font-bold text-blue-600">+500ml</div>
+                  <div className="text-xs text-muted-foreground">Bottle</div>
+                </div>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-14 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20"
+                onClick={async () => {
+                  if (user?.id) {
+                    await waterApi.logWater(user.id, 1000);
+                    refetchWater();
+                  }
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-lg font-bold text-blue-600">+1L</div>
+                  <div className="text-xs text-muted-foreground">Large</div>
+                </div>
+              </Button>
             </div>
           </div>
         </section>
