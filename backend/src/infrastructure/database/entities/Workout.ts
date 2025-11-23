@@ -44,7 +44,8 @@ export class Workout {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @ManyToOne("User", (user: any) => user.workouts, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "userId" })
-  user!: any;
+  // Removed foreign key constraint since we use Supabase auth.users
+  // @ManyToOne("User", (user: any) => user.workouts, { onDelete: "CASCADE" })
+  // @JoinColumn({ name: "userId" })
+  // user!: any;
 }
