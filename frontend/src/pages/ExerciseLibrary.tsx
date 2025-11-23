@@ -9,31 +9,63 @@ import { Search, Dumbbell, X, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import BottomNav from "@/components/BottomNav";
 
-const MUSCLE_GROUPS = ["all", "chest", "back", "legs", "shoulders", "arms", "core", "cardio"];
-const EQUIPMENT_TYPES = ["all", "barbell", "dumbbell", "machine", "bodyweight", "cable", "other"];
+const MUSCLE_GROUPS = ["chest", "back", "legs", "shoulders", "arms", "core", "cardio"];
+const EQUIPMENT_TYPES = ["barbell", "dumbbell", "machine", "bodyweight", "cable", "other"];
 
 export default function ExerciseLibrary() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedMuscle, setSelectedMuscle] = useState("all");
-  const [selectedEquipment, setSelectedEquipment] = useState("all");
+  const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
+  const [selectedEquipment, setSelectedEquipment] = useState<string[]>([]);
 
-  const { data: exercises = [], isLoading } = useQuery({
-    queryKey: ["exercises", selectedMuscle, selectedEquipment, searchQuery],
-    queryFn: () => api.getExercises({
-      muscleGroup: selectedMuscle !== "all" ? selectedMuscle : undefined,
-      equipment: selectedEquipment !== "all" ? selectedEquipment : undefined,
-      search: searchQuery || undefined,
-    }),
+  const { data: allExercises = [], isLoading } = useQuery({
+    queryKey: ["exercises"],
+    queryFn: () => api.getExercises({}),
   });
+
+  // Client-side filtering for multiple selections
+  const exercises = allExercises.filter((exercise) => {
+    // Search filter
+    if (searchQuery && !exercise.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+
+    // Muscle group filter (OR logic - matches any selected muscle)
+    if (selectedMuscles.length > 0 && !selectedMuscles.includes(exercise.muscleGroup.toLowerCase())) {
+      return false;
+    }
+
+    // Equipment filter (OR logic - matches any selected equipment)
+    if (selectedEquipment.length > 0 && !selectedEquipment.includes(exercise.equipment.toLowerCase())) {
+      return false;
+    }
+
+    return true;
+  });
+
+  const toggleMuscle = (muscle: string) => {
+    setSelectedMuscles(prev =>
+      prev.includes(muscle)
+        ? prev.filter(m => m !== muscle)
+        : [...prev, muscle]
+    );
+  };
+
+  const toggleEquipment = (equipment: string) => {
+    setSelectedEquipment(prev =>
+      prev.includes(equipment)
+        ? prev.filter(e => e !== equipment)
+        : [...prev, equipment]
+    );
+  };
 
   const clearFilters = () => {
     setSearchQuery("");
-    setSelectedMuscle("all");
-    setSelectedEquipment("all");
+    setSelectedMuscles([]);
+    setSelectedEquipment([]);
   };
 
-  const hasFilters = searchQuery || selectedMuscle !== "all" || selectedEquipment !== "all";
+  const hasFilters = searchQuery || selectedMuscles.length > 0 || selectedEquipment.length > 0;
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -69,14 +101,21 @@ export default function ExerciseLibrary() {
         {/* Filters */}
         <div className="space-y-3">
           <div>
-            <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Muscle Group</p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-semibold text-muted-foreground uppercase">Muscle Group</p>
+              {selectedMuscles.length > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {selectedMuscles.length} selected
+                </Badge>
+              )}
+            </div>
             <div className="flex gap-2 flex-wrap">
               {MUSCLE_GROUPS.map((muscle) => (
                 <Button
                   key={muscle}
-                  variant={selectedMuscle === muscle ? "default" : "outline"}
+                  variant={selectedMuscles.includes(muscle) ? "default" : "outline"}
                   size="sm"
-                  onClick={() => setSelectedMuscle(muscle)}
+                  onClick={() => toggleMuscle(muscle)}
                   className="capitalize"
                 >
                   {muscle}
@@ -86,14 +125,21 @@ export default function ExerciseLibrary() {
           </div>
 
           <div>
-            <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase">Equipment</p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-semibold text-muted-foreground uppercase">Equipment</p>
+              {selectedEquipment.length > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {selectedEquipment.length} selected
+                </Badge>
+              )}
+            </div>
             <div className="flex gap-2 flex-wrap">
               {EQUIPMENT_TYPES.map((equipment) => (
                 <Button
                   key={equipment}
-                  variant={selectedEquipment === equipment ? "default" : "outline"}
+                  variant={selectedEquipment.includes(equipment) ? "default" : "outline"}
                   size="sm"
-                  onClick={() => setSelectedEquipment(equipment)}
+                  onClick={() => toggleEquipment(equipment)}
                   className="capitalize"
                 >
                   {equipment}
@@ -105,7 +151,7 @@ export default function ExerciseLibrary() {
           {hasFilters && (
             <Button variant="ghost" size="sm" onClick={clearFilters} className="w-full">
               <X size={16} className="mr-2" />
-              Clear Filters
+              Clear All Filters
             </Button>
           )}
         </div>
