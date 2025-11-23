@@ -125,19 +125,28 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+      {/* Animated background orbs */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-float" />
+        <div className="absolute bottom-40 right-10 w-80 h-80 bg-accent/20 rounded-full blur-[120px] animate-float" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-success/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: "2s" }} />
+      </div>
+
       {/* Header */}
-      <header className="bg-gradient-card border-b border-border/50 sticky top-0 z-40 backdrop-blur-sm">
+      <header className="glass-strong border-b border-border/30 sticky top-0 z-40 backdrop-blur-2xl">
         <div className="max-w-md mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-black tracking-tight text-foreground">Dashboard</h1>
+              <h1 className="text-3xl font-black tracking-tight bg-gradient-primary bg-clip-text text-transparent animate-glow">
+                Dashboard
+              </h1>
               <p className="text-sm text-muted-foreground mt-1.5 font-medium">Let's crush your goals today 💪</p>
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setProfileDialogOpen(true)}
-                className="relative w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center text-lg font-bold shadow-glow hover:scale-105 transition-transform overflow-hidden group"
+                className="relative w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center text-lg font-bold shadow-glow hover:scale-110 transition-all duration-300 overflow-hidden group neon-border"
               >
                 {avatarUrl ? (
                   <>
@@ -146,19 +155,19 @@ const Dashboard = () => {
                       alt="Profile"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <span className="text-xs text-white font-bold">Edit</span>
                     </div>
                   </>
                 ) : (
-                  <span className="group-hover:scale-110 transition-transform">{getInitials()}</span>
+                  <span className="group-hover:scale-110 transition-transform text-primary-foreground">{getInitials()}</span>
                 )}
               </button>
               <Button 
                 variant="ghost" 
                 size="icon"
                 onClick={handleLogout}
-                className="hover:bg-destructive/20 hover:text-destructive"
+                className="hover:bg-destructive/20 hover:text-destructive hover:scale-110 transition-all duration-300"
               >
                 <LogOut size={20} />
               </Button>
@@ -167,23 +176,23 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <main className="max-w-md mx-auto px-6 py-6 space-y-8">
+      <main className="max-w-md mx-auto px-6 py-6 space-y-8 relative z-10">
         {/* Daily Overview */}
         <section className="animate-slide-up">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold text-foreground">Today's Activity</h2>
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <span className="text-xs font-semibold text-primary uppercase tracking-wider px-3 py-1 rounded-full glass">
               {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
             </span>
           </div>
-          <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30">
+          <div className="glass-strong rounded-3xl p-6 shadow-glow border border-primary/20 hover:border-primary/40 transition-all duration-500">
             <div className="flex justify-between items-center gap-1">
               <CircularProgress
                 value={caloriesConsumed}
                 max={caloriesTarget}
                 size={90}
                 strokeWidth={8}
-                color="hsl(199, 89%, 48%)"
+                color="hsl(190, 95%, 55%)"
                 label="Consumed"
                 sublabel="kcal"
               />
@@ -192,7 +201,7 @@ const Dashboard = () => {
                 max={600}
                 size={90}
                 strokeWidth={8}
-                color="hsl(14, 90%, 60%)"
+                color="hsl(320, 85%, 58%)"
                 label="Burned"
                 sublabel="kcal"
               />
@@ -201,7 +210,7 @@ const Dashboard = () => {
                 max={caloriesTarget}
                 size={90}
                 strokeWidth={8}
-                color="hsl(142, 76%, 36%)"
+                color="hsl(150, 85%, 50%)"
                 label="Remaining"
                 sublabel="kcal"
               />
@@ -214,14 +223,14 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold text-foreground">Macros</h2>
           </div>
-          <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30">
+          <div className="glass-strong rounded-3xl p-6 shadow-medium border border-accent/20 hover:border-accent/40 transition-all duration-500">
             <div className="flex justify-between items-center gap-1">
               <CircularProgress
                 value={protein}
                 max={proteinTarget}
                 size={90}
                 strokeWidth={8}
-                color="hsl(199, 89%, 48%)"
+                color="hsl(190, 95%, 55%)"
                 label="Protein"
                 sublabel="g"
               />
@@ -239,7 +248,7 @@ const Dashboard = () => {
                 max={fatTarget}
                 size={90}
                 strokeWidth={8}
-                color="hsl(14, 90%, 60%)"
+                color="hsl(320, 85%, 58%)"
                 label="Fat"
                 sublabel="g"
               />
@@ -251,11 +260,11 @@ const Dashboard = () => {
         <section className="animate-slide-up" style={{ animationDelay: "0.075s" }}>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
-              <Droplets size={24} className="text-blue-500" />
+              <Droplets size={24} className="text-primary animate-glow" />
               Water Intake
             </h2>
             <Link to="/nutrition/water-goal">
-              <Button variant="ghost" size="icon" className="hover:bg-blue-500/20">
+              <Button variant="ghost" size="icon" className="hover:bg-primary/20 hover:scale-110 transition-all duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
                   <circle cx="12" cy="12" r="3"/>
@@ -263,14 +272,14 @@ const Dashboard = () => {
               </Button>
             </Link>
           </div>
-          <div className="bg-gradient-card rounded-3xl p-6 shadow-medium border border-border/30 space-y-4">
+          <div className="glass-strong rounded-3xl p-6 shadow-glow border border-primary/30 hover:border-primary/50 transition-all duration-500 space-y-4">
             <div className="flex justify-center">
               <CircularProgress
                 value={waterConsumed}
                 max={waterGoal}
                 size={110}
                 strokeWidth={10}
-                color="hsl(199, 89%, 48%)"
+                color="hsl(190, 95%, 55%)"
                 label={`${(waterConsumed / 1000).toFixed(1)}L`}
                 sublabel={`of ${(waterGoal / 1000).toFixed(1)}L`}
               />
@@ -280,7 +289,7 @@ const Dashboard = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="h-14 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20"
+                className="h-14 glass border-primary/30 hover:border-primary/60 hover:shadow-glow hover:scale-105 transition-all duration-300"
                 onClick={async () => {
                   if (user?.id) {
                     await waterApi.logWater(user.id, 250);
@@ -289,14 +298,14 @@ const Dashboard = () => {
                 }}
               >
                 <div className="text-center">
-                  <div className="text-lg font-bold text-blue-600">+250ml</div>
+                  <div className="text-lg font-bold text-primary">+250ml</div>
                   <div className="text-xs text-muted-foreground">Glass</div>
                 </div>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-14 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20"
+                className="h-14 glass border-primary/30 hover:border-primary/60 hover:shadow-glow hover:scale-105 transition-all duration-300"
                 onClick={async () => {
                   if (user?.id) {
                     await waterApi.logWater(user.id, 500);
@@ -305,14 +314,14 @@ const Dashboard = () => {
                 }}
               >
                 <div className="text-center">
-                  <div className="text-lg font-bold text-blue-600">+500ml</div>
+                  <div className="text-lg font-bold text-primary">+500ml</div>
                   <div className="text-xs text-muted-foreground">Bottle</div>
                 </div>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-14 bg-blue-500/10 border-blue-500/30 hover:bg-blue-500/20"
+                className="h-14 glass border-primary/30 hover:border-primary/60 hover:shadow-glow hover:scale-105 transition-all duration-300"
                 onClick={async () => {
                   if (user?.id) {
                     await waterApi.logWater(user.id, 1000);
@@ -321,7 +330,7 @@ const Dashboard = () => {
                 }}
               >
                 <div className="text-center">
-                  <div className="text-lg font-bold text-blue-600">+1L</div>
+                  <div className="text-lg font-bold text-primary">+1L</div>
                   <div className="text-xs text-muted-foreground">Large</div>
                 </div>
               </Button>
@@ -387,36 +396,36 @@ const Dashboard = () => {
           <div className="grid grid-cols-2 gap-4">
             <Button 
               variant="outline" 
-              className="h-28 flex flex-col items-center justify-center gap-3 bg-gradient-card border-border/50 hover:border-primary/50 transition-all group" 
+              className="h-28 flex flex-col items-center justify-center gap-3 glass border-primary/30 hover:border-primary/60 hover:shadow-glow hover:scale-105 transition-all duration-300 group" 
               asChild
             >
               <Link to="/nutrition">
-                <div className="w-12 h-12 rounded-2xl bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <UtensilsCrossed className="text-primary" size={24} />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform shadow-glow">
+                  <UtensilsCrossed className="text-primary-foreground" size={24} />
                 </div>
                 <span className="text-sm font-semibold">Log Meal</span>
               </Link>
             </Button>
             <Button 
               variant="outline" 
-              className="h-28 flex flex-col items-center justify-center gap-3 bg-gradient-card border-border/50 hover:border-accent/50 transition-all group" 
+              className="h-28 flex flex-col items-center justify-center gap-3 glass border-accent/30 hover:border-accent/60 hover:shadow-glow-accent hover:scale-105 transition-all duration-300 group" 
               asChild
             >
               <Link to="/training/active">
-                <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Dumbbell className="text-accent" size={24} />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-energy flex items-center justify-center group-hover:scale-110 transition-transform shadow-glow-accent">
+                  <Dumbbell className="text-accent-foreground" size={24} />
                 </div>
                 <span className="text-sm font-semibold">Start Workout</span>
               </Link>
             </Button>
             <Button 
               variant="outline" 
-              className="h-28 flex flex-col items-center justify-center gap-3 bg-gradient-card border-border/50 hover:border-success/50 transition-all group col-span-2" 
+              className="h-28 flex flex-col items-center justify-center gap-3 glass border-success/30 hover:border-success/60 hover:shadow-glow-success hover:scale-105 transition-all duration-300 group col-span-2" 
               asChild
             >
               <Link to="/goals">
-                <div className="w-12 h-12 rounded-2xl bg-success/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Scale className="text-success" size={24} />
+                <div className="w-12 h-12 rounded-2xl bg-gradient-success flex items-center justify-center group-hover:scale-110 transition-transform shadow-glow-success">
+                  <Scale className="text-success-foreground" size={24} />
                 </div>
                 <span className="text-sm font-semibold">Update Weight</span>
               </Link>

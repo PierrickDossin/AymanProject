@@ -57,12 +57,17 @@ export default {
         medium: "var(--shadow-medium)",
         glow: "var(--shadow-glow)",
         "glow-accent": "var(--shadow-glow-accent)",
+        "glow-success": "var(--shadow-glow-success)",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-energy": "var(--gradient-energy)",
         "gradient-success": "var(--gradient-success)",
         "gradient-card": "var(--gradient-card)",
+        "gradient-mesh": "var(--gradient-mesh)",
+      },
+      backdropBlur: {
+        xs: "2px",
       },
       borderRadius: {
         lg: "var(--radius)",

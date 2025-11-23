@@ -8,88 +8,94 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 25% 8%;
+    /* Deep cosmic background with purple undertones */
+    --background: 260 40% 6%;
     --foreground: 0 0% 98%;
 
-    --card: 220 20% 11%;
+    /* Glass cards with blur effect */
+    --card: 260 30% 10%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 220 20% 11%;
+    --popover: 260 30% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 199 89% 48%;
-    --primary-foreground: 0 0% 100%;
+    /* Electric cyan-blue primary */
+    --primary: 190 95% 55%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 220 18% 16%;
-    --secondary-foreground: 0 0% 98%;
+    /* Purple secondary */
+    --secondary: 270 60% 18%;
+    --secondary-foreground: 270 100% 90%;
 
-    --muted: 220 18% 16%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 260 30% 15%;
+    --muted-foreground: 260 10% 65%;
 
-    --accent: 14 90% 60%;
+    /* Hot pink/magenta accent */
+    --accent: 320 85% 58%;
     --accent-foreground: 0 0% 100%;
 
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
+    /* Neon green success */
+    --success: 150 85% 50%;
+    --success-foreground: 0 0% 5%;
 
-    --destructive: 0 84% 60%;
+    /* Red destructive */
+    --destructive: 0 90% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 18% 18%;
-    --input: 220 18% 16%;
-    --ring: 199 89% 48%;
+    --border: 260 30% 18%;
+    --input: 260 30% 15%;
+    --ring: 190 95% 55%;
 
-    --radius: 1.25rem;
+    --radius: 1.5rem;
 
-    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(210 100% 60%));
-    --gradient-energy: linear-gradient(135deg, hsl(14 90% 60%), hsl(25 100% 65%));
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(160 84% 39%));
-    --gradient-card: linear-gradient(145deg, hsl(220 20% 13%), hsl(220 25% 10%));
+    /* Cyberpunk gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(190 95% 55%) 0%, hsl(270 80% 60%) 100%);
+    --gradient-energy: linear-gradient(135deg, hsl(320 85% 58%) 0%, hsl(30 100% 60%) 100%);
+    --gradient-success: linear-gradient(135deg, hsl(150 85% 50%) 0%, hsl(190 95% 55%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(260 30% 12% / 0.4), hsl(260 40% 8% / 0.6));
+    --gradient-mesh: radial-gradient(at 40% 20%, hsl(270 80% 30% / 0.3) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(190 95% 40% / 0.3) 0px, transparent 50%),
+                     radial-gradient(at 0% 50%, hsl(320 85% 40% / 0.3) 0px, transparent 50%);
     
-    --shadow-soft: 0 2px 12px hsl(0 0% 0% / 0.4);
-    --shadow-medium: 0 6px 24px hsl(0 0% 0% / 0.5);
-    --shadow-glow: 0 8px 32px hsl(199 89% 48% / 0.35);
-    --shadow-glow-accent: 0 8px 32px hsl(14 90% 60% / 0.35);
+    /* Enhanced shadows with neon glow */
+    --shadow-soft: 0 4px 16px hsl(260 40% 4% / 0.6);
+    --shadow-medium: 0 8px 32px hsl(260 40% 4% / 0.8);
+    --shadow-glow: 0 0 40px hsl(190 95% 55% / 0.5), 0 0 80px hsl(190 95% 55% / 0.2);
+    --shadow-glow-accent: 0 0 40px hsl(320 85% 58% / 0.5), 0 0 80px hsl(320 85% 58% / 0.2);
+    --shadow-glow-success: 0 0 40px hsl(150 85% 50% / 0.5), 0 0 80px hsl(150 85% 50% / 0.2);
 
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
-    --background: 220 25% 8%;
+    /* Same dark theme (we're already dark) */
+    --background: 260 40% 6%;
     --foreground: 0 0% 98%;
-
-    --card: 220 20% 11%;
+    --card: 260 30% 10%;
     --card-foreground: 0 0% 98%;
-
-    --popover: 220 20% 11%;
+    --popover: 260 30% 12%;
     --popover-foreground: 0 0% 98%;
-
-    --primary: 199 89% 48%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 220 18% 16%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 220 18% 16%;
-    --muted-foreground: 220 10% 60%;
-
-    --accent: 14 90% 60%;
+    --primary: 190 95% 55%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 270 60% 18%;
+    --secondary-foreground: 270 100% 90%;
+    --muted: 260 30% 15%;
+    --muted-foreground: 260 10% 65%;
+    --accent: 320 85% 58%;
     --accent-foreground: 0 0% 100%;
-
-    --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
+    --success: 150 85% 50%;
+    --success-foreground: 0 0% 5%;
+    --destructive: 0 90% 58%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 220 18% 18%;
-    --input: 220 18% 16%;
-    --ring: 199 89% 48%;
-
-    --shadow-soft: 0 2px 12px hsl(0 0% 0% / 0.4);
-    --shadow-medium: 0 6px 24px hsl(0 0% 0% / 0.5);
-    --shadow-glow: 0 8px 32px hsl(199 89% 48% / 0.35);
-    --shadow-glow-accent: 0 8px 32px hsl(14 90% 60% / 0.35);
+    --border: 260 30% 18%;
+    --input: 260 30% 15%;
+    --ring: 190 95% 55%;
+    --shadow-soft: 0 4px 16px hsl(260 40% 4% / 0.6);
+    --shadow-medium: 0 8px 32px hsl(260 40% 4% / 0.8);
+    --shadow-glow: 0 0 40px hsl(190 95% 55% / 0.5), 0 0 80px hsl(190 95% 55% / 0.2);
+    --shadow-glow-accent: 0 0 40px hsl(320 85% 58% / 0.5), 0 0 80px hsl(320 85% 58% / 0.2);
+    --shadow-glow-success: 0 0 40px hsl(150 85% 50% / 0.5), 0 0 80px hsl(150 85% 50% / 0.2);
   }
 }
 
@@ -102,11 +108,14 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 400;
+    background-image: var(--gradient-mesh);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
+    text-shadow: 0 0 20px hsl(190 95% 55% / 0.3);
   }
   
   h1 {
@@ -118,17 +127,69 @@ All colors MUST be HSL.
   }
 }
 
+/* Glassmorphism utilities */
 @layer utilities {
+  .glass {
+    background: linear-gradient(145deg, 
+      hsl(260 30% 12% / 0.6), 
+      hsl(260 40% 8% / 0.4)
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(260 30% 25% / 0.3);
+  }
+
+  .glass-strong {
+    background: linear-gradient(145deg, 
+      hsl(260 30% 15% / 0.8), 
+      hsl(260 40% 10% / 0.6)
+    );
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    border: 1px solid hsl(260 30% 30% / 0.4);
+  }
+
+  .neon-border {
+    position: relative;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .neon-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+      hsl(190 95% 55%), 
+      hsl(270 80% 60%), 
+      hsl(320 85% 58%)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.6;
+  }
+
   .animate-fade-in {
-    animation: fadeIn 0.4s ease-out;
+    animation: fadeIn 0.5s ease-out;
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.3s ease-out;
+    animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .animate-slide-up {
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 
   @keyframes fadeIn {
@@ -143,22 +204,40 @@ All colors MUST be HSL.
   @keyframes scaleIn {
     from {
       opacity: 0;
-      transform: scale(0.95);
+      transform: scale(0.9) translateY(10px);
     }
     to {
       opacity: 1;
-      transform: scale(1);
+      transform: scale(1) translateY(0);
     }
   }
 
   @keyframes slideUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 10px currentColor);
+    }
+    50% {
+      filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 30px currentColor);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
     }
   }
 }
