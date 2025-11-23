@@ -1,19 +1,22 @@
 import { Router, Request, Response } from "express";
-import { AppDataSource } from "../../infrastructure/database/data-source.js";
-import { ExerciseLog } from "../../infrastructure/database/entities/ExerciseLog.js";
-import { authenticateToken } from "../../middleware/auth.js";
+import { AppDataSource } from "../../../infrastructure/database/data-source.js";
+import { ExerciseLog } from "../../../infrastructure/database/entities/ExerciseLog.js";
 
 const router = Router();
 
 // Get exercise history for a specific exercise
-router.get("/history/:exerciseName", authenticateToken, async (req: Request, res: Response) => {
+router.get("/history/:exerciseName", async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const { userId } = req.query;
     const { exerciseName } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ error: "userId is required" });
+    }
 
     const exerciseLogRepository = AppDataSource.getRepository(ExerciseLog);
     const logs = await exerciseLogRepository.find({
-      where: { userId, exerciseName },
+      where: { userId: userId as string, exerciseName },
       order: { performedAt: "DESC" },
       take: 10, // Last 10 performances
     });
@@ -26,13 +29,17 @@ router.get("/history/:exerciseName", authenticateToken, async (req: Request, res
 });
 
 // Get all exercise logs for user
-router.get("/", authenticateToken, async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const { userId } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ error: "userId is required" });
+    }
 
     const exerciseLogRepository = AppDataSource.getRepository(ExerciseLog);
     const logs = await exerciseLogRepository.find({
-      where: { userId },
+      where: { userId: userId as string },
       order: { performedAt: "DESC" },
       take: 50,
     });
@@ -45,12 +52,11 @@ router.get("/", authenticateToken, async (req: Request, res: Response) => {
 });
 
 // Log a new exercise performance
-router.post("/", authenticateToken, async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
-    const { exerciseName, weight, reps, sets, workoutType, notes } = req.body;
+    const { userId, exerciseName, weight, reps, sets, workoutType, notes } = req.body;
 
-    if (!exerciseName || weight === undefined || !reps || !sets || !workoutType) {
+    if (!userId || !exerciseName || weight === undefined || !reps || !sets || !workoutType) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -74,14 +80,17 @@ router.post("/", authenticateToken, async (req: Request, res: Response) => {
 });
 
 // Update an exercise log
-router.put("/:id", authenticateToken, async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
     const { id } = req.params;
-    const { weight, reps, sets, notes } = req.body;
+    const { userId, weight, reps, sets, notes } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "userId is required" });
+    }
 
     const exerciseLogRepository = AppDataSource.getRepository(ExerciseLog);
-    const log = await exerciseLogRepository.findOne({ where: { id, userId } });
+    const log = await exerciseLogRepository.findOne({ where: { id, userId: userId as string } });
 
     if (!log) {
       return res.status(404).json({ error: "Exercise log not found" });
@@ -101,13 +110,17 @@ router.put("/:id", authenticateToken, async (req: Request, res: Response) => {
 });
 
 // Delete an exercise log
-router.delete("/:id", authenticateToken, async (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
     const { id } = req.params;
+    const { userId } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ error: "userId is required" });
+    }
 
     const exerciseLogRepository = AppDataSource.getRepository(ExerciseLog);
-    const log = await exerciseLogRepository.findOne({ where: { id, userId } });
+    const log = await exerciseLogRepository.findOne({ where: { id, userId: userId as string } });
 
     if (!log) {
       return res.status(404).json({ error: "Exercise log not found" });
