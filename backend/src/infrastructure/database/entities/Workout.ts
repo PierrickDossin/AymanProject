@@ -14,7 +14,7 @@ export class Workout {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column("varchar")
+  @Column({ type: "varchar", nullable: true })
   userId!: string;
 
   @Column("varchar")
