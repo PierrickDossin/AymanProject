@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Dumbbell, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
@@ -13,23 +14,23 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { signIn, socialSignIn } = useAuth();
+  const { signIn } = useAuth();
 
-  const handleSocialLogin = (provider: string) => {
-    const providerMap: Record<string, string> = {
-      "Google": "google",
-      "Facebook": "facebook",
-      "Apple": "apple"
-    };
+  const handleSocialLogin = async (provider: 'google' | 'facebook' | 'apple') => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
 
-    const providerKey = providerMap[provider];
-    if (!providerKey) {
-      return;
+      if (error) {
+        console.error('OAuth error:', error);
+      }
+    } catch (error) {
+      console.error('Social login error:', error);
     }
-
-    // Redirect to backend OAuth endpoint
-    const backendUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:4000';
-    window.location.href = `${backendUrl}/auth/${providerKey}`;
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -133,7 +134,7 @@ const Login = () => {
               <Button
                 variant="outline"
                 type="button"
-                onClick={() => handleSocialLogin("Google")}
+                onClick={() => handleSocialLogin("google")}
                 className="h-12 border-border/50 bg-secondary/30 hover:bg-secondary/50"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -158,7 +159,7 @@ const Login = () => {
               <Button
                 variant="outline"
                 type="button"
-                onClick={() => handleSocialLogin("Apple")}
+                onClick={() => handleSocialLogin("apple")}
                 className="h-12 border-border/50 bg-secondary/30 hover:bg-secondary/50"
               >
                 <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
@@ -168,7 +169,7 @@ const Login = () => {
               <Button
                 variant="outline"
                 type="button"
-                onClick={() => handleSocialLogin("Facebook")}
+                onClick={() => handleSocialLogin("facebook")}
                 className="h-12 border-border/50 bg-secondary/30 hover:bg-secondary/50"
               >
                 <svg className="h-5 w-5 fill-[#1877F2]" viewBox="0 0 24 24">

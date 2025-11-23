@@ -1,5 +1,14 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { api, User } from '@/lib/api';
+import { supabase } from '@/integrations/supabase/client';
+import { Session, User as SupabaseUser } from '@supabase/supabase-js';
+
+interface User {
+  id: string;
+  email?: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+}
 
 interface AuthContextType {
   user: User | null;
@@ -32,18 +41,58 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is stored in localStorage
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email,
+          username: session.user.user_metadata?.username,
+          firstName: session.user.user_metadata?.firstName || session.user.user_metadata?.first_name,
+          lastName: session.user.user_metadata?.lastName || session.user.user_metadata?.last_name,
+        });
+      }
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email,
+          username: session.user.user_metadata?.username,
+          firstName: session.user.user_metadata?.firstName || session.user.user_metadata?.first_name,
+          lastName: session.user.user_metadata?.lastName || session.user.user_metadata?.last_name,
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { user } = await api.login(email, password);
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) throw error;
+
+    if (data.user) {
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        username: data.user.user_metadata?.username,
+        firstName: data.user.user_metadata?.firstName,
+        lastName: data.user.user_metadata?.lastName,
+      });
+    }
   };
 
   const signUp = async (data: {
@@ -53,20 +102,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     email: string;
     password: string;
   }) => {
-    const { user } = await api.signup(data);
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
+    const { data: authData, error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          username: data.username,
+          firstName: data.firstName,
+          lastName: data.lastName,
+        },
+      },
+    });
+
+    if (error) throw error;
+
+    if (authData.user) {
+      setUser({
+        id: authData.user.id,
+        email: authData.user.email,
+        username: data.username,
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
+    }
   };
 
   const socialSignIn = async (provider: string) => {
-    const { user } = await api.socialLogin(provider);
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
+    // This is now handled directly in the Login/SignUp components
+    // This function is kept for compatibility
   };
 
-  const signOut = () => {
+  const signOut = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('user');
   };
 
   return (

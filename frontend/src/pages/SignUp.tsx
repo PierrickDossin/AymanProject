@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Dumbbell, Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 
 const SignUp = () => {
@@ -19,8 +20,21 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { signUp } = useAuth();
 
-  const handleSocialLogin = (provider: string) => {
-    // Social login placeholder
+  const handleSocialLogin = async (provider: 'google' | 'facebook' | 'apple') => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          redirectTo: `${window.location.origin}/`,
+        },
+      });
+
+      if (error) {
+        console.error('OAuth error:', error);
+      }
+    } catch (error) {
+      console.error('Social login error:', error);
+    }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -203,7 +217,7 @@ const SignUp = () => {
               <Button 
                 variant="outline" 
                 type="button"
-                onClick={() => handleSocialLogin("Google")}
+                onClick={() => handleSocialLogin("google")}
                 className="h-12 border-border/50 bg-secondary/30 hover:bg-secondary/50"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -228,7 +242,7 @@ const SignUp = () => {
               <Button 
                 variant="outline" 
                 type="button"
-                onClick={() => handleSocialLogin("Apple")}
+                onClick={() => handleSocialLogin("apple")}
                 className="h-12 border-border/50 bg-secondary/30 hover:bg-secondary/50"
               >
                 <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
@@ -238,7 +252,7 @@ const SignUp = () => {
               <Button 
                 variant="outline" 
                 type="button"
-                onClick={() => handleSocialLogin("Facebook")}
+                onClick={() => handleSocialLogin("facebook")}
                 className="h-12 border-border/50 bg-secondary/30 hover:bg-secondary/50"
               >
                 <svg className="h-5 w-5 fill-[#1877F2]" viewBox="0 0 24 24">
