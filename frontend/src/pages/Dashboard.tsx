@@ -210,14 +210,11 @@ const Dashboard = () => {
                   value={`${weightGoal.currentValue}${weightGoal.metric}`}
                   subtitle={`Goal: ${weightGoal.goalValue}${weightGoal.metric}`}
                   icon={<Scale size={22} />}
-                  trend={
-                    weightGoal.currentValue !== weightGoal.goalValue
-                      ? {
-                          value: `${Math.abs(weightGoal.goalValue - weightGoal.currentValue).toFixed(1)}${weightGoal.metric} to go`,
-                          positive: weightGoal.currentValue < weightGoal.goalValue,
-                        }
-                      : undefined
-                  }
+                  progress={{
+                    current: weightGoal.currentValue,
+                    target: weightGoal.goalValue,
+                    start: weightGoal.startValue,
+                  }}
                 />
               )}
               {bodyFatGoal && (
@@ -226,14 +223,11 @@ const Dashboard = () => {
                   value={`${bodyFatGoal.currentValue}${bodyFatGoal.metric}`}
                   subtitle={`Goal: ${bodyFatGoal.goalValue}${bodyFatGoal.metric}`}
                   icon={<TrendingUp size={22} />}
-                  trend={
-                    bodyFatGoal.currentValue !== bodyFatGoal.goalValue
-                      ? {
-                          value: `${Math.abs(bodyFatGoal.goalValue - bodyFatGoal.currentValue).toFixed(1)}${bodyFatGoal.metric} to go`,
-                          positive: bodyFatGoal.currentValue > bodyFatGoal.goalValue,
-                        }
-                      : undefined
-                  }
+                  progress={{
+                    current: bodyFatGoal.currentValue,
+                    target: bodyFatGoal.goalValue,
+                    start: bodyFatGoal.startValue,
+                  }}
                 />
               )}
             </div>
