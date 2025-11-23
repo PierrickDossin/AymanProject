@@ -217,6 +217,7 @@ const Dashboard = () => {
                   }}
                   goalId={weightGoal.id}
                   metric={weightGoal.metric}
+                  className={!bodyFatGoal ? "col-span-2" : ""}
                 />
               )}
               {bodyFatGoal && (
@@ -232,6 +233,7 @@ const Dashboard = () => {
                   }}
                   goalId={bodyFatGoal.id}
                   metric={bodyFatGoal.metric}
+                  className={!weightGoal ? "col-span-2" : ""}
                 />
               )}
             </div>
