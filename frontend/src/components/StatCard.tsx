@@ -18,9 +18,10 @@ interface StatCardProps {
   };
   goalId?: string;
   metric?: string;
+  className?: string;
 }
 
-const StatCard = ({ title, value, subtitle, icon, trend, progress, goalId, metric }: StatCardProps) => {
+const StatCard = ({ title, value, subtitle, icon, trend, progress, goalId, metric, className }: StatCardProps) => {
   // Calculate progress percentage
   const getProgressPercentage = () => {
     if (!progress) return 0;
@@ -34,7 +35,7 @@ const StatCard = ({ title, value, subtitle, icon, trend, progress, goalId, metri
   const progressPercentage = progress ? getProgressPercentage() : 0;
 
   return (
-    <Card className="relative overflow-hidden bg-gradient-card border-border/30 p-5 shadow-medium hover:shadow-glow transition-all duration-300 animate-scale-in group">
+    <Card className={`relative overflow-hidden bg-gradient-card border-border/30 p-5 shadow-medium hover:shadow-glow transition-all duration-300 animate-scale-in group ${className || ""}`}>
       <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
       <div className="relative z-10 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3">
