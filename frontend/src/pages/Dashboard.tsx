@@ -168,8 +168,80 @@ const Dashboard = () => {
       </header>
 
       <main className="max-w-md mx-auto px-6 py-6 space-y-6">
-        {/* Daily Overview */}
+        {/* Quick Actions - Move to top for easy access */}
         <section className="animate-slide-up">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <Button 
+              variant="outline" 
+              className="h-24 flex flex-col items-center justify-center gap-2 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200 group" 
+              asChild
+            >
+              <Link to="/nutrition">
+                <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <UtensilsCrossed className="text-primary-foreground" size={20} />
+                </div>
+                <span className="text-sm font-medium">Log Meal</span>
+              </Link>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="h-24 flex flex-col items-center justify-center gap-2 bg-card/50 border-border hover:border-accent/50 hover:scale-105 transition-all duration-200 group" 
+              asChild
+            >
+              <Link to="/training/active">
+                <div className="w-10 h-10 rounded-xl bg-gradient-energy flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <Dumbbell className="text-accent-foreground" size={20} />
+                </div>
+                <span className="text-sm font-medium">Start Workout</span>
+              </Link>
+            </Button>
+          </div>
+        </section>
+
+        {/* Stats Grid - Show goals prominently */}
+        {(weightGoal || bodyFatGoal) && (
+          <section className="space-y-4 animate-slide-up" style={{ animationDelay: "0.05s" }}>
+            <h2 className="text-lg font-semibold text-foreground">Active Goals</h2>
+            <div className="grid grid-cols-2 gap-4">
+              {weightGoal && (
+                <StatCard
+                  title={weightGoal.name}
+                  value={`${weightGoal.currentValue}${weightGoal.metric}`}
+                  subtitle={`Goal: ${weightGoal.goalValue}${weightGoal.metric}`}
+                  icon={<Scale size={22} />}
+                  trend={
+                    weightGoal.currentValue !== weightGoal.goalValue
+                      ? {
+                          value: `${Math.abs(weightGoal.goalValue - weightGoal.currentValue).toFixed(1)}${weightGoal.metric} to go`,
+                          positive: weightGoal.currentValue < weightGoal.goalValue,
+                        }
+                      : undefined
+                  }
+                />
+              )}
+              {bodyFatGoal && (
+                <StatCard
+                  title={bodyFatGoal.name}
+                  value={`${bodyFatGoal.currentValue}${bodyFatGoal.metric}`}
+                  subtitle={`Goal: ${bodyFatGoal.goalValue}${bodyFatGoal.metric}`}
+                  icon={<TrendingUp size={22} />}
+                  trend={
+                    bodyFatGoal.currentValue !== bodyFatGoal.goalValue
+                      ? {
+                          value: `${Math.abs(bodyFatGoal.goalValue - bodyFatGoal.currentValue).toFixed(1)}${bodyFatGoal.metric} to go`,
+                          positive: bodyFatGoal.currentValue > bodyFatGoal.goalValue,
+                        }
+                      : undefined
+                  }
+                />
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Daily Overview */}
+        <section className="animate-slide-up" style={{ animationDelay: "0.075s" }}>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-foreground">Today's Activity</h2>
             <span className="text-xs font-medium text-muted-foreground">
@@ -209,162 +281,130 @@ const Dashboard = () => {
           </div>
         </section>
 
-        {/* Macros Overview */}
-        <section className="animate-slide-up" style={{ animationDelay: "0.05s" }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-foreground">Macros</h2>
+        {/* Water & Macros Side by Side */}
+        <section className="grid grid-cols-1 gap-6 animate-slide-up" style={{ animationDelay: "0.1s" }}>
+          {/* Water Intake - Compact */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+                <Droplets size={20} className="text-primary" />
+                Water Intake
+              </h2>
+              <Link to="/nutrition/water-goal">
+                <Button variant="ghost" size="icon" className="hover:bg-primary/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </Button>
+              </Link>
+            </div>
+            <div className="card-elevated rounded-2xl p-6">
+              <div className="flex items-center justify-between gap-6">
+                <CircularProgress
+                  value={waterConsumed}
+                  max={waterGoal}
+                  size={100}
+                  strokeWidth={10}
+                  color="hsl(262, 83%, 58%)"
+                  label={`${(waterConsumed / 1000).toFixed(1)}L`}
+                  sublabel={`of ${(waterGoal / 1000).toFixed(1)}L`}
+                />
+                <div className="flex-1 grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-12 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200"
+                    onClick={async () => {
+                      if (user?.id) {
+                        await waterApi.logWater(user.id, 250);
+                        refetchWater();
+                      }
+                    }}
+                  >
+                    <div className="text-center">
+                      <div className="text-sm font-bold text-primary">+250ml</div>
+                      <div className="text-[10px] text-muted-foreground">Glass</div>
+                    </div>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-12 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200"
+                    onClick={async () => {
+                      if (user?.id) {
+                        await waterApi.logWater(user.id, 500);
+                        refetchWater();
+                      }
+                    }}
+                  >
+                    <div className="text-center">
+                      <div className="text-sm font-bold text-primary">+500ml</div>
+                      <div className="text-[10px] text-muted-foreground">Bottle</div>
+                    </div>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-12 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200 col-span-2"
+                    onClick={async () => {
+                      if (user?.id) {
+                        await waterApi.logWater(user.id, 1000);
+                        refetchWater();
+                      }
+                    }}
+                  >
+                    <div className="text-center">
+                      <div className="text-sm font-bold text-primary">+1L</div>
+                      <div className="text-[10px] text-muted-foreground">Large</div>
+                    </div>
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="card-elevated rounded-2xl p-6">
-            <div className="flex justify-between items-center gap-1">
-              <CircularProgress
-                value={protein}
-                max={proteinTarget}
-                size={90}
-                strokeWidth={8}
-                color="hsl(262, 83%, 58%)"
-                label="Protein"
-                sublabel="g"
-              />
-              <CircularProgress
-                value={carbs}
-                max={carbsTarget}
-                size={90}
-                strokeWidth={8}
-                color="hsl(47, 90%, 55%)"
-                label="Carbs"
-                sublabel="g"
-              />
-              <CircularProgress
-                value={fat}
-                max={fatTarget}
-                size={90}
-                strokeWidth={8}
-                color="hsl(14, 100%, 57%)"
-                label="Fat"
-                sublabel="g"
-              />
+
+          {/* Macros Overview */}
+          <div>
+            <h2 className="text-lg font-semibold text-foreground mb-4">Macros</h2>
+            <div className="card-elevated rounded-2xl p-6">
+              <div className="flex justify-between items-center gap-1">
+                <CircularProgress
+                  value={protein}
+                  max={proteinTarget}
+                  size={90}
+                  strokeWidth={8}
+                  color="hsl(262, 83%, 58%)"
+                  label="Protein"
+                  sublabel="g"
+                />
+                <CircularProgress
+                  value={carbs}
+                  max={carbsTarget}
+                  size={90}
+                  strokeWidth={8}
+                  color="hsl(47, 90%, 55%)"
+                  label="Carbs"
+                  sublabel="g"
+                />
+                <CircularProgress
+                  value={fat}
+                  max={fatTarget}
+                  size={90}
+                  strokeWidth={8}
+                  color="hsl(14, 100%, 57%)"
+                  label="Fat"
+                  sublabel="g"
+                />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Water Intake */}
-        <section className="animate-slide-up" style={{ animationDelay: "0.075s" }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-              <Droplets size={20} className="text-primary" />
-              Water Intake
-            </h2>
-            <Link to="/nutrition/water-goal">
-              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-              </Button>
-            </Link>
-          </div>
-          <div className="card-elevated rounded-2xl p-6 space-y-4">
-            <div className="flex justify-center">
-              <CircularProgress
-                value={waterConsumed}
-                max={waterGoal}
-                size={110}
-                strokeWidth={10}
-                color="hsl(262, 83%, 58%)"
-                label={`${(waterConsumed / 1000).toFixed(1)}L`}
-                sublabel={`of ${(waterGoal / 1000).toFixed(1)}L`}
-              />
-            </div>
-            
-            <div className="grid grid-cols-3 gap-3">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-14 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200"
-                onClick={async () => {
-                  if (user?.id) {
-                    await waterApi.logWater(user.id, 250);
-                    refetchWater();
-                  }
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-lg font-bold text-primary">+250ml</div>
-                  <div className="text-xs text-muted-foreground">Glass</div>
-                </div>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-14 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200"
-                onClick={async () => {
-                  if (user?.id) {
-                    await waterApi.logWater(user.id, 500);
-                    refetchWater();
-                  }
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-lg font-bold text-primary">+500ml</div>
-                  <div className="text-xs text-muted-foreground">Bottle</div>
-                </div>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-14 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200"
-                onClick={async () => {
-                  if (user?.id) {
-                    await waterApi.logWater(user.id, 1000);
-                    refetchWater();
-                  }
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-lg font-bold text-primary">+1L</div>
-                  <div className="text-xs text-muted-foreground">Large</div>
-                </div>
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Grid */}
-        <section className="space-y-4 animate-slide-up" style={{ animationDelay: "0.1s" }}>
-          <h2 className="text-lg font-semibold text-foreground">Your Stats</h2>
+        {/* Additional Stats */}
+        <section className="space-y-4 animate-slide-up" style={{ animationDelay: "0.125s" }}>
+          <h2 className="text-lg font-semibold text-foreground">Progress Tracking</h2>
           <div className="grid grid-cols-2 gap-4">
-            {weightGoal && (
-              <StatCard
-                title={weightGoal.name}
-                value={`${weightGoal.currentValue}${weightGoal.metric}`}
-                subtitle={`Goal: ${weightGoal.goalValue}${weightGoal.metric}`}
-                icon={<Scale size={22} />}
-                trend={
-                  weightGoal.currentValue !== weightGoal.goalValue
-                    ? {
-                        value: `${Math.abs(weightGoal.goalValue - weightGoal.currentValue).toFixed(1)}${weightGoal.metric} to go`,
-                        positive: weightGoal.currentValue < weightGoal.goalValue,
-                      }
-                    : undefined
-                }
-              />
-            )}
-            {bodyFatGoal && (
-              <StatCard
-                title={bodyFatGoal.name}
-                value={`${bodyFatGoal.currentValue}${bodyFatGoal.metric}`}
-                subtitle={`Goal: ${bodyFatGoal.goalValue}${bodyFatGoal.metric}`}
-                icon={<TrendingUp size={22} />}
-                trend={
-                  bodyFatGoal.currentValue !== bodyFatGoal.goalValue
-                    ? {
-                        value: `${Math.abs(bodyFatGoal.goalValue - bodyFatGoal.currentValue).toFixed(1)}${bodyFatGoal.metric} to go`,
-                        positive: bodyFatGoal.currentValue > bodyFatGoal.goalValue,
-                      }
-                    : undefined
-                }
-              />
-            )}
             <StatCard
               title="Weekly Workouts"
               value="0/5"
@@ -378,37 +418,6 @@ const Dashboard = () => {
               icon={<Flame size={22} />}
               trend={{ value: "Start logging!", positive: true }}
             />
-          </div>
-        </section>
-
-        {/* Quick Actions */}
-        <section className="space-y-4 animate-slide-up" style={{ animationDelay: "0.2s" }}>
-          <h2 className="text-lg font-semibold text-foreground">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-24 flex flex-col items-center justify-center gap-2 bg-card/50 border-border hover:border-primary/50 hover:scale-105 transition-all duration-200 group" 
-              asChild
-            >
-              <Link to="/nutrition">
-                <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <UtensilsCrossed className="text-primary-foreground" size={20} />
-                </div>
-                <span className="text-sm font-medium">Log Meal</span>
-              </Link>
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-24 flex flex-col items-center justify-center gap-2 bg-card/50 border-border hover:border-accent/50 hover:scale-105 transition-all duration-200 group" 
-              asChild
-            >
-              <Link to="/training/active">
-                <div className="w-10 h-10 rounded-xl bg-gradient-energy flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Dumbbell className="text-accent-foreground" size={20} />
-                </div>
-                <span className="text-sm font-medium">Start Workout</span>
-              </Link>
-            </Button>
             <Button 
               variant="outline" 
               className="h-24 flex flex-col items-center justify-center gap-2 bg-card/50 border-border hover:border-success/50 hover:scale-105 transition-all duration-200 group col-span-2" 
