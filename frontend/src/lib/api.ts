@@ -57,11 +57,21 @@ export interface Goal {
   description?: string;
   currentValue: number;
   goalValue: number;
+  startValue: number;
   metric: "kg" | "lbs" | "%" | "reps" | "seconds" | "minutes";
   targetDate?: string;
   status: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface GoalProgressEntry {
+  id: string;
+  goal_id: string;
+  value: number;
+  recorded_at: string;
+  created_at: string;
+  user_id: string;
 }
 
 export interface Exercise {

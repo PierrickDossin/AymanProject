@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Card } from "@/components/ui/card";
+import GoalProgressChart from "./GoalProgressChart";
 
 interface StatCardProps {
   title: string;
@@ -15,9 +16,11 @@ interface StatCardProps {
     target: number;
     start: number;
   };
+  goalId?: string;
+  metric?: string;
 }
 
-const StatCard = ({ title, value, subtitle, icon, trend, progress }: StatCardProps) => {
+const StatCard = ({ title, value, subtitle, icon, trend, progress, goalId, metric }: StatCardProps) => {
   // Calculate progress percentage
   const getProgressPercentage = () => {
     if (!progress) return 0;
@@ -62,6 +65,15 @@ const StatCard = ({ title, value, subtitle, icon, trend, progress }: StatCardPro
                 />
               </div>
             </div>
+          )}
+          {goalId && progress && metric && (
+            <GoalProgressChart
+              goalId={goalId}
+              startValue={progress.start}
+              targetValue={progress.target}
+              currentValue={progress.current}
+              metric={metric}
+            />
           )}
           {trend && !progress && (
             <div className="mt-3 flex items-center gap-1.5">

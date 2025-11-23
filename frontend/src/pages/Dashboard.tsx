@@ -215,6 +215,8 @@ const Dashboard = () => {
                     target: weightGoal.goalValue,
                     start: weightGoal.startValue,
                   }}
+                  goalId={weightGoal.id}
+                  metric={weightGoal.metric}
                 />
               )}
               {bodyFatGoal && (
@@ -228,6 +230,8 @@ const Dashboard = () => {
                     target: bodyFatGoal.goalValue,
                     start: bodyFatGoal.startValue,
                   }}
+                  goalId={bodyFatGoal.id}
+                  metric={bodyFatGoal.metric}
                 />
               )}
             </div>
