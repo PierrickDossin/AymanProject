@@ -45,6 +45,9 @@ export class Goal {
   @Column({ type: "float" })
   goalValue!: number;
 
+  @Column({ type: "float" })
+  startValue!: number;
+
   @Column({
     type: "varchar",
     enum: GoalMetric
